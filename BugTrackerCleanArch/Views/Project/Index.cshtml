@@ -11,22 +11,25 @@
                 <button id="project-create-btn" class="btn btn-success">+ New Project</button>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" id="project-card-cont">
 
             @foreach (var userProject in Model.User.UserProjects)
             {
-                <div class="col-lg-2 col-md-4 col-sm-6 p-3">
-                    <div class="card box-shadow grow">
-                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@userProject.Project.Id" class="project-detail-link">
+                <div class="col-lg-3 col-md-4 col-sm-6 pl-5 pr-5 pb-5">
+                    <div class="card box-shadow grow bg-white">
+                        <a id="@userProject.Project.Id" class="project-detail-link">
                             <img class="card-img" src="~/images/project-card-bg6.jpeg" alt="Card image">
                             <div class="card-img-overlay">
                                 <h5 class="card-title text-white">@userProject.Project.Name</h5>
+
                             </div>
                         </a>
                     </div>
+                    <div class="card-footer bg-white mt-0">
+                        <img class="project-edit-btn" src="~/images/edit-blue.png" alt="edit icon" />
+                    </div>
                 </div>
             }
-
 
         </div>
     </div>
@@ -46,7 +49,7 @@
 
                     <div class="form-group">
                         <label asp-for="NewProjectName">Name:</label>
-                        <input asp-for="NewProjectName" class="form-control" placeholder="Email" />
+                        <input asp-for="NewProjectName" class="form-control" />
                         <span asp-validation-for="NewProjectName" class="text-danger"></span>
                     </div>
 
@@ -66,6 +69,47 @@
                     <input type="submit" class="btn btn-primary" value="Save" />
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="project-edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-center">
+                <h5 class="modal-title text-center text-white" id="exampleModalCenterTitle">Edit <span id="project-read-name"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form id="project-edit-form" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" class="form-control" id="project-edit-name"  />
+                        <span asp-validation-for="NewProjectName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="project-edit-description" class="form-control" name="description" cols="4" rows="4"></textarea>
+                        <span asp-validation-for="NewProjectDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="link">Repository Link:</label>
+                        <input id="project-edit-link" class="form-control" type="url" name="link"  />
+                        <span asp-validation-for="NewProjectRepoUrl" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" value="" name="projectId" />
+
+                    <button class="btn btn-outline-secondary">Cancel</button>
+                    <input id="edit-form-btn" type="submit" class="btn btn-primary" value="Save" />
+                </form>
+
             </div>
         </div>
     </div>

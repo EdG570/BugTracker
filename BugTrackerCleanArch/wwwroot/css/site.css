@@ -573,3 +573,13 @@ img.checkmark-icon {
     right: 1em;
     bottom: 1em;
 }
+
+/* ----------------- Projects --------------- */
+
+.project-edit-btn {
+    max-width: 22px;
+}
+
+.project-edit-btn:hover {
+    cursor: pointer;
+}
