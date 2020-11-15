@@ -8,6 +8,7 @@ namespace BugTracker.Core.Models.Enums
     {
         Low,
         Medium,
-        High
+        High,
+        Urgent
     }
 }
