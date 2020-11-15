@@ -32,8 +32,6 @@
     </div>
 </div>
 
-
-
 <div class="modal fade" id="project-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -56,6 +54,12 @@
                         <label asp-for="NewProjectDescription">Description:</label>
                         @Html.TextAreaFor(x => x.NewProjectDescription, 4, 4, new { @class = "form-control" })
                         <span asp-validation-for="NewProjectDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="NewProjectRepoUrl">Repository Link:</label>
+                        @Html.TextBoxFor(x => x.NewProjectRepoUrl, new { @class = "form-control" })
+                        <span asp-validation-for="NewProjectRepoUrl" class="text-danger"></span>
                     </div>
 
                     <button class="btn btn-outline-secondary">Cancel</button>

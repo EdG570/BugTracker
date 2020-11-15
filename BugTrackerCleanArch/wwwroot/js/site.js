@@ -1,4 +1,40 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿var modals = (function () {
+    var projectCreateModal = $('#project-create-modal');
+    var projectEditModal = $('#project-edit-modal');
+    var ticketCreateModal = $('#ticket-create-modal');
 
-// Write your JavaScript code.
+    var projectCreateBtn = $('#project-create-btn');
+    var ticketCreateBtn = $('#create-ticket-btn');
+
+    projectCreateBtn.on('click', function () {
+        projectCreateModal.modal('toggle');
+    });
+
+    ticketCreateBtn.on('click', function () {
+        ticketCreateModal.modal('toggle');
+    });
+
+    var init = function () {
+        projectEditModal.modal('show');
+    };
+
+    return {
+        init: init
+    };
+
+})();
+
+$(document).ready(function () {
+    var ticketSearchInput = $('#ticket-table-search');
+    var ticketSearchBtn = $('#ticket-search-btn');
+
+    modals.init();
+
+    ticketSearchBtn.on('click', function () {
+        var textVal = ticketSearchInput.val();
+        var str = 'tr:not(:has(th)):not(:contains(' + textVal + '))';
+        var show = 'tr:not(:has(th)):contains(' + textVal + ')';
+        $(str).hide()
+        $(show).show();
+    });
+});

@@ -21,5 +21,8 @@ namespace BugTracker.Application.ViewModels.Project
 
         [MaxLength(255)]
         public string NewProjectDescription { get; set; }
+
+        [Url]
+        public string NewProjectRepoUrl { get; set; }
     }
 }

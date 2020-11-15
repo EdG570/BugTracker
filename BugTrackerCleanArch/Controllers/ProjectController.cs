@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BugTracker.Application.ViewModels.Project;
 using BugTracker.Core.Interfaces;
+using BugTracker.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -32,6 +33,39 @@ namespace BugTracker.Application.Controllers
             var user = await _appUserService.FindOne(userId);
 
             return View(new IndexViewModel { User = user });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(IndexViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index", "Project");
+
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = await _appUserService.FindOne(userId);
+
+            var project = new Project
+            {
+                Name = vm.NewProjectName,
+                Description = vm.NewProjectDescription,
+                CreatedBy = $"{ user.FirstName } { user.LastName }",
+                OwnerId = user.Id,
+                RepositoryUri = vm.NewProjectRepoUrl
+            };
+
+            var result = await _projectService.Create(project);
+
+            var userProject = new UserProject
+            {
+                AppUserId = user.Id,
+                ProjectId = project.Id,
+                AppUser = user,
+                Project = project
+            };
+
+            var userProjectResult = await _userProjectService.Create(userProject);
+
+            return RedirectToAction("Index", "Project");
         }
     }
 }
