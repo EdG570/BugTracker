@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj" />
     <ProjectReference Include="..\BugTracker.Infrastructure\BugTracker.Infrastructure.csproj" />
   </ItemGroup>
