@@ -31,5 +31,8 @@ namespace BugTracker.Core.Models
 
         public int OwnerId { get; set; }
 
+        public virtual ICollection<UserProject> UserProjects { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
+
     }
 }
