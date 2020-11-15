@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BugTracker.Core.Interfaces;
 using BugTracker.Core.Models;
+using BugTracker.Core.Services;
 using BugTracker.Infrastructure.Context;
+using BugTracker.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -44,6 +48,22 @@ namespace BugTrackerCleanArch
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IUserProjectRepository, UserProjectRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
+
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<IUserProjectService, UserProjectService>();
+            services.AddScoped<IAppUserService, AppUserService>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllersWithViews()
                     .AddNewtonsoftJson(options =>
