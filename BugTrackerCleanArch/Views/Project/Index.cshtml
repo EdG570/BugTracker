@@ -1,3 +1,74 @@
-﻿<h2>Project Index</h2>
+﻿@model BugTracker.Application.ViewModels.Project.IndexViewModel
+
+<div class="row">
+    <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
+        <partial name="_DashboardLeftSideBar" />
+    </div>
+
+    <div class="col-md-10 col-lg-11 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <button id="project-create-btn" class="btn btn-success">+ New Project</button>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+
+            @foreach (var userProject in Model.User.UserProjects)
+            {
+                <div class="col-lg-2 col-md-4 col-sm-6 p-3">
+                    <div class="card box-shadow grow">
+                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@userProject.Project.Id" class="project-detail-link">
+                            <img class="card-img" src="~/images/project-card-bg6.jpeg" alt="Card image">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title text-white">@userProject.Project.Name</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="project-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-center">
+                <h5 class="modal-title text-center text-white" id="exampleModalCenterTitle">Create a New Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Project" asp-action="Create" method="post">
+
+                    <div class="form-group">
+                        <label asp-for="NewProjectName">Name:</label>
+                        <input asp-for="NewProjectName" class="form-control" placeholder="Email" />
+                        <span asp-validation-for="NewProjectName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="NewProjectDescription">Description:</label>
+                        @Html.TextAreaFor(x => x.NewProjectDescription, 4, 4, new { @class = "form-control" })
+                        <span asp-validation-for="NewProjectDescription" class="text-danger"></span>
+                    </div>
+
+                    <button class="btn btn-outline-secondary">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
 
