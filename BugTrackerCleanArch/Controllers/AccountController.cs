@@ -61,5 +61,35 @@ namespace BugTracker.Application.Controllers
 
             return View(vm);
         }
+
+        public IActionResult LogIn()
+        {
+            return View(new LogInViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LogIn(LogInViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.Message = "Model state is invalid. Please try again.";
+                return View();
+            }
+
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(vm.Email);
+                await _signInManager.PasswordSignInAsync(user, vm.Password, false, false);
+                HttpContext.Session.SetString("FirstName", user.FirstName);
+
+                return RedirectToAction("Index", "Project");
+            }
+            catch (Exception e)
+            {
+                vm.Message = "An unexpected error occurred when attempting to log you in. Please try again.";
+                return RedirectToAction("LogIn");
+            }
+
+        }
     }
 }
