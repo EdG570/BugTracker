@@ -1,0 +1,46 @@
+﻿@model BugTracker.Application.ViewModels.Account.LogInViewModel
+
+<div class="row justify-content-center">
+
+    <div class="col-md-3 col-sm-8 padding-top-6 form-container">
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="text-center text-danger">
+                <p>@Model.Message</p>
+            </div>
+        }
+
+        <div class="form-header">
+            <img class="icon form-header-icon" src="~/images/log-in-1x.png" alt="Log In Icon" />
+            <h3>Log In</h3>
+        </div>
+
+        <form asp-controller="Account" asp-action="LogIn" method="post">
+
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mb-3">Log In</button>
+
+            <a asp-controller="Account" asp-action="Register" class="sm-font">New to BugTracker? Click here to register.</a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
