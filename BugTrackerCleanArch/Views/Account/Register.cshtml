@@ -1,5 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model BugTracker.Application.ViewModels.Account.RegisterViewModel
+
+<div class="row justify-content-center">
+
+    <div class="col-md-3 col-sm-8 padding-top-6 form-container">
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="text-center text-danger">
+                <p>@Model.Message</p>
+            </div>
+        }
+
+        <div class="form-header">
+            <img class="icon form-header-icon" src="~/images/log-in-1x.png" alt="Log In Icon" />
+            <h3>Register</h3>
+        </div>
+
+        <form asp-controller="Account" asp-action="Register" method="post">
+
+            <div class="form-group">
+                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
+
+            <a asp-controller="Account" asp-action="LogIn" class="sm-font">Already have an account? Click here to Log In</a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="register-info-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Welcome!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Let's get started by providing an organization and registering a new account.</p>
+                <p>Close this window to get started!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
+
+
