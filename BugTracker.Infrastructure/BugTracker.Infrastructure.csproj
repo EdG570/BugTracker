@@ -17,8 +17,4 @@
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
