@@ -34,7 +34,8 @@ namespace BugTrackerCleanArch
 
             services.AddDbContext<IdentityAppContext>(config =>
             {
-                config.UseSqlServer(Configuration.GetConnectionString("Default"));
+                config.UseSqlServer(Configuration.GetConnectionString("Default"),
+                x => x.MigrationsAssembly("BugTracker.Infrastructure"));
             });
 
             services.AddSession(options =>
