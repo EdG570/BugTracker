@@ -91,5 +91,12 @@ namespace BugTracker.Application.Controllers
             }
 
         }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("LogIn");
+        }
     }
 }
