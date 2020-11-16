@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Application.ViewModels.TicketViewModels
 {
-    public class CreateViewModel
+    public class TicketCreateViewModel
     {
         [Required]
         [MaxLength(100)]

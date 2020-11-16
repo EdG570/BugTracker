@@ -10,6 +10,6 @@ namespace BugTracker.Application.ViewModels.ProjectViewModels
     public class DetailViewModel
     {
         public Project Project { get; set; }
-        public CreateViewModel TicketCreateVm { get; set; }
+        public TicketCreateViewModel TicketCreateVm { get; set; }
     }
 }

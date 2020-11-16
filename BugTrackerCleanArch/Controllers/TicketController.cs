@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using BugTracker.Application.ViewModels.ProjectViewModels;
+using BugTracker.Application.ViewModels.TicketViewModels;
 using BugTracker.Core.Interfaces;
+using BugTracker.Core.Models;
 using BugTracker.Core.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +67,27 @@ namespace BugTracker.Application.Controllers
                 throw new KeyNotFoundException("Ticket was not found in the database with the id provided as an argument.");
 
             return Json(new { ticketFromDb });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(DetailViewModel vm)
+        {
+            if (string.IsNullOrEmpty(vm.TicketCreateVm.Title) || string.IsNullOrEmpty(vm.TicketCreateVm.Description))
+                return RedirectToAction("Detail", "Project", new { id = vm.Project.Id });
+
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = await _appUserService.FindOne(userId);
+
+            var ticket = _mapper.Map(vm.TicketCreateVm, new Ticket());
+
+            ticket.CreatedBy = user.FirstName + user.LastName;
+            ticket.RequestorId = user.Id;
+            ticket.ProjectId = vm.Project.Id;
+            ticket.Status = Status.Open; 
+
+            var result = await _ticketService.Create(ticket);
+
+            return RedirectToAction("Detail", "Project", new { id = ticket.ProjectId });
         }
     }
 }

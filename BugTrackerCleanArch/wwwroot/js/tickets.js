@@ -1,4 +1,4 @@
-﻿var ajax = (function () {
+﻿var ajaxTickets = (function () {
 
     var updateTicketStatus = function (ticketId, status) {
         $.ajax({
@@ -22,7 +22,7 @@
             data: { id: id },
             success: function (data) {
                 console.log(data);
-                ui.buildTicketDetailModal(data.ticketFromDb);
+                uiTickets.buildTicketDetailModal(data.ticketFromDb);
             },
             error: function (e) {
 
@@ -30,9 +30,14 @@
         });
     };
 
+    var editTicket = function () {
+
+    };
+
     return {
         updateTicketStatus: updateTicketStatus,
-        findTicketById: findTicketById
+        findTicketById: findTicketById,
+        editTicket: editTicket
     };
 })();
 
@@ -49,7 +54,7 @@ var modalManager = (function () {
 
 })();
 
-var ui = (function () {
+var uiTickets = (function () {
 
     var buildTicketDetailModal = function (ticket) {
         var $modalCont = $('#ticket-detail-modal');
@@ -169,7 +174,7 @@ var detail = (function () {
         var $ticket = $(this);
         var ticketId = $ticket.attr('id');
 
-        ajax.findTicketById(ticketId);
+        ajaxTickets.findTicketById(ticketId);
     });
 
 
@@ -217,7 +222,7 @@ var dragDrop = (function () {
             var ticketId = dropped.attr('id');
 
             $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-            ajax.updateTicketStatus(ticketId, 'Open');
+            ajaxTickets.updateTicketStatus(ticketId, 'Open');
         },
         over: function (event, elem) {
             $(this).addClass("over");
@@ -234,7 +239,7 @@ var dragDrop = (function () {
             var ticketId = dropped.attr('id');
 
             $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-            ajax.updateTicketStatus(ticketId, 'InProgress');
+            ajaxTickets.updateTicketStatus(ticketId, 'InProgress');
         },
         over: function (event, elem) {
             $(this).addClass("over");
@@ -251,7 +256,7 @@ var dragDrop = (function () {
             var ticketId = dropped.attr('id');
 
             $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-            ajax.updateTicketStatus(ticketId, 'Closed');
+            ajaxTickets.updateTicketStatus(ticketId, 'Closed');
         },
         over: function (event, elem) {
             $(this).addClass("over");
@@ -260,6 +265,48 @@ var dragDrop = (function () {
             $(this).removeClass("over");
         }
     });
+
+})();
+
+var editTicket = (function () {
+    var $formBtn = $('#ticket-edit-form-btn');
+    var $form = $('#ticket-edit-form');
+    var $titleInput = $form.find('#edit-title');
+    var $typeInput = $form.find('#edit-type');
+    var $priorityInput = $form.find('#edit-priority');
+    var $assignInput = $form.find('#edit-assign');
+    var $descriptionInput = $form.find('#edit-description');
+
+    $formBtn.on('click', function (e) {
+        e.preventDefault();
+
+        var title = $titleInput.val();
+        var type = $typeInput.val();
+        var priority = $priorityInput.val();
+        var assign = $assignInput.val();
+        var description = $descriptionInput.val();
+
+        ajaxTickets.editTicket(title, type, priority, assign, description);
+
+    });
+
+    return {
+
+    };
+
+})();
+
+var ticketModals = (function () {
+    var $modalInitBtn = $('#ticket-create-init-btn');
+    var $createModal = $('#ticket-create-modal');
+
+    $modalInitBtn.on('click', function () {
+        $createModal.modal('toggle');
+    });
+
+    return {
+
+    };
 
 })();
 

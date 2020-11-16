@@ -25,7 +25,7 @@
         </div>
         <div class="row mb-2 padding-top-3 justify-content-center">
             <div class="col-11">
-                <a asp-controller="Ticket" asp-action="Create" asp-route-id="@Model.Project.Id" id="create-ticket-btn" class="btn btn-success">+ New Ticket</a>
+                <button id="ticket-create-init-btn" class="btn btn-success">+ New Ticket</button>
             </div>
         </div>
         <div class="row d-flex align-items-stretch justify-content-center">
@@ -151,6 +151,68 @@
                         </div>
                     }
                 }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ticket-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-center">
+                <h5 class="modal-title text-center text-white" id="exampleModalCenterTitle">Create Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Ticket" asp-action="Create" method="post" class="form box-shadow" id="ticket-create-form">
+                    @Html.HiddenFor(x => x.Project.Id)
+
+                    <div class="form-group">
+                        <label asp-for="TicketCreateVm.Title">Title:</label>
+                        <input id="create-title" asp-for="TicketCreateVm.Title" class="form-control box-shadow" type="text" />
+                        <span asp-validation-for="TicketCreateVm.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TicketCreateVm.Type">Type:</label>
+                        <select id="create-type" asp-for="TicketCreateVm.Type" asp-items="Model.TicketCreateVm.TypeOptions" class="form-control"></select>
+                        <span asp-validation-for="TicketCreateVm.Type" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="TicketCreateVm.Priority">Priority:</label>
+                                <select id="create-priority" asp-for="TicketCreateVm.Priority" asp-items="@Model.TicketCreateVm.PriorityOptions" class="form-control"></select>
+                                <span asp-validation-for="TicketCreateVm.Priority" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="TicketCreateVm.AssignedToId">Assign To:</label>
+                                <select id="create-assign" asp-for="TicketCreateVm.AssignedToId" asp-items="@Model.TicketCreateVm.ProjectUsers" class="form-control"></select>
+                                <span asp-validation-for="TicketCreateVm.AssignedToId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TicketCreateVm.Description">Description:</label>
+                        @Html.TextAreaFor(x => x.TicketCreateVm.Description, 4, 4, new { @class = "form-control", id = "create-description" })
+                        <span asp-validation-for="TicketCreateVm.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-4">
+                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.TicketCreateVm.ProjectId" class="btn btn-secondary">Cancel</a>
+                            <input id="ticket-create-form-btn" type="submit" class="btn btn-primary" value="Save" />
+                        </div>
+                    </div>
+
+
+                </form>
             </div>
         </div>
     </div>

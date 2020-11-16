@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using BugTracker.Application.ViewModels.ProjectViewModels;
+using BugTracker.Application.ViewModels.TicketViewModels;
 using BugTracker.Core.Interfaces;
 using BugTracker.Core.Models;
 using BugTracker.Core.Models.Enums;
@@ -20,14 +21,16 @@ namespace BugTracker.Application.Controllers
         private readonly IAppUserService _appUserService;
         private readonly IProjectService _projectService;
         private readonly IUserProjectService _userProjectService;
+        private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IAppUserService appUserService, IProjectService projectService, IUserProjectService userProjectService, IMapper mapper)
+        public ProjectController(IAppUserService appUserService, IProjectService projectService, IUserProjectService userProjectService, IMapper mapper, ITicketService ticketService)
         {
             _appUserService = appUserService;
             _projectService = projectService;
             _userProjectService = userProjectService;
             _mapper = mapper;
+            _ticketService = ticketService;
         }
 
         public async Task<IActionResult> Index()
@@ -73,7 +76,17 @@ namespace BugTracker.Application.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            var vm = new DetailViewModel { Project = await _projectService.FindOne(id) };
+            var vm = new DetailViewModel { 
+                Project = await _projectService.FindOne(id),
+                TicketCreateVm = new TicketCreateViewModel
+                {
+                    PriorityOptions = _ticketService.GetPrioritySelectListItems(),
+                    StatusOptions = _ticketService.GetStatusSelectListItems(),
+                    TypeOptions = _ticketService.GetTicketTypeSelectListItems(),
+                    ProjectUsers = await _projectService.GetUsersAsSelectListItemsByProjectId(id),
+                    ProjectId = id
+                }
+            };
 
             return View(vm);
         }
