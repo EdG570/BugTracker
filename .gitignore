@@ -341,3 +341,4 @@ healthchecksdb
 
 # Cache files
  !?*.[Cc]ache/
+/Todos.txt
