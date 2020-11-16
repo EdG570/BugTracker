@@ -1,4 +1,4 @@
-﻿@model BugTracker.Application.ViewModels.Project.IndexViewModel
+﻿@model BugTracker.Application.ViewModels.ProjectViewModels.IndexViewModel
 
 <div class="row">
     <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
@@ -7,7 +7,7 @@
 
     <div class="col-md-10 col-lg-11 pt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="col-lg-12">
                 <button id="project-create-btn" class="btn btn-success">+ New Project</button>
             </div>
         </div>
@@ -15,13 +15,12 @@
 
             @foreach (var userProject in Model.User.UserProjects)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 pl-5 pr-5 pb-5">
+                <div class="col-lg-2 col-md-6 col-sm-6 pl-5 pr-5 pb-5">
                     <div class="card box-shadow grow bg-white">
-                        <a id="@userProject.Project.Id" class="project-detail-link">
+                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@userProject.Project.Id" id="@userProject.Project.Id" class="project-detail-link">
                             <img class="card-img" src="~/images/project-card-bg6.jpeg" alt="Card image">
                             <div class="card-img-overlay">
                                 <h5 class="card-title text-white">@userProject.Project.Name</h5>
-
                             </div>
                         </a>
                     </div>

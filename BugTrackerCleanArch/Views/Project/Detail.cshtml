@@ -1,0 +1,208 @@
+﻿@model BugTracker.Application.ViewModels.ProjectViewModels.DetailViewModel
+@using BugTracker.Core.Models.Enums
+
+
+<div class="row">
+
+    <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
+        <partial name="_DashboardLeftSideBar" />
+    </div>
+
+    <div class="col-md-10 col-lg-11">
+        <div class="row justify-content-center">
+            <nav class="navbar w-100 p-0">
+                <div class="secondary-nav w-100">
+                    <ul class="navbar-nav flex-row w-100 bg-light">
+                        <li class="nav-item justify-content-start p-2">
+                            <a class="nav-link text-dark" asp-controller="Project" asp-action="Index">Projects</a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Users</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="row mb-2 padding-top-3 justify-content-center">
+            <div class="col-11">
+                <a asp-controller="Ticket" asp-action="Create" asp-route-id="@Model.Project.Id" id="create-ticket-btn" class="btn btn-success">+ New Ticket</a>
+            </div>
+        </div>
+        <div class="row d-flex align-items-stretch justify-content-center">
+            <div class="col-xl-3 p-xl-3 p-1 box-shadow" id="backlog-container">
+                <h6 class="text-secondary ticket-cont-header">BACKLOG</h6>
+                @foreach (var ticket in Model.Project.Tickets)
+                {
+                    if (ticket.Status == Status.Open)
+                    {
+                        <div class="card mb-1 box-shadow ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                            <div class="card-body">
+                                <h6 class="card-title">@ticket.Title</h6>
+                                <span class="card-ticket-number">#@ticket.Id</span>
+                                <hr />
+                                <span class="ticket-type">@ticket.Type</span>
+                                <span class="status">@ticket.Status</span>
+                                <span class="priority float-right">
+                                    @if (ticket.Priority == Priority.Urgent)
+                                    {
+                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                    }
+                                    else if (ticket.Priority == Priority.High)
+                                    {
+                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Medium)
+                                    {
+                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Low)
+                                    {
+                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                    }
+                                    else
+                                    {
+                                        @ticket.Priority
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="dev-container">
+                <h6 class="text-secondary ticket-cont-header">IN-PROGRESS</h6>
+                @foreach (var ticket in Model.Project.Tickets)
+                {
+                    if (ticket.Status == Status.InProgress)
+                    {
+                        <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                            <div class="card-body">
+                                <h6 class="card-title">@ticket.Title</h6>
+                                <span class="card-ticket-number">#@ticket.Id</span>
+                                <hr />
+                                <span class="ticket-type">@ticket.Type</span>
+                                <span class="status">@ticket.Status</span>
+                                <span class="priority float-right">
+                                    @if (ticket.Priority == Priority.Urgent)
+                                    {
+                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                    }
+                                    else if (ticket.Priority == Priority.High)
+                                    {
+                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Medium)
+                                    {
+                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Low)
+                                    {
+                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                    }
+                                    else
+                                    {
+                                        @ticket.Priority
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="completed-container">
+                <h6 class="text-secondary ticket-cont-header">COMPLETED</h6>
+                @foreach (var ticket in Model.Project.Tickets)
+                {
+                    if (ticket.Status == Status.Closed)
+                    {
+                        <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                            <div class="card-body">
+                                <h6 class="card-title">@ticket.Title</h6>
+                                <span class="card-ticket-number">#@ticket.Id</span>
+                                <hr />
+                                <span class="ticket-type">@ticket.Type</span>
+                                <span class="status">@ticket.Status</span>
+                                <span class="priority float-right">
+                                    @if (ticket.Priority == Priority.Urgent)
+                                    {
+                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                    }
+                                    else if (ticket.Priority == Priority.High)
+                                    {
+                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Medium)
+                                    {
+                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                    }
+                                    else if (ticket.Priority == Priority.Low)
+                                    {
+                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                    }
+                                    else
+                                    {
+                                        @ticket.Priority
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ticket-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="card-header">
+
+            </div>
+            <div class="modal-body">
+                <span class="modal-item" id="ticket-detail-title"><span class="text-muted">TITLE: </span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-id"><span class="text-muted">#</span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-type"><span class="text-muted">Type: </span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-priority"><span class="text-muted">Priority: </span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-status"><span class="text-muted">Status: </span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-createdby"><span class="text-muted">Requestor: </span><span class="text-val"></span></span>
+                <span class="modal-item" id="ticket-detail-createdon"><span class="text-muted"></span><span class="text-val text-muted"></span></span>
+                <span class="modal-item" id="ticket-detail-description"><span class="text-muted">Description: </span><span class="text-val"></span></span>
+            </div>
+            <div class="card comment-card">
+                <div class="card-body text-center comments-header">
+                    <h4 class="card-title">Comments</h4>
+                </div>
+                <div class="comment-widgets">
+
+
+
+                </div>
+
+                <div class="new-comment-cont">
+                    <form asp-controller="Comment" asp-action="Create" method="post" id="new-comment-form">
+                        @*@Html.HiddenFor(x => x.Id)*@
+
+                        <div class="form-group">
+                            @*@Html.TextAreaFor(x => x.NewComment, new { @class = "form-control" })*@
+                            @*<textarea asp-for="" class="form-control" rows="3" placeholder="Enter a new comment here..."></textarea>*@
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Save Comment</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

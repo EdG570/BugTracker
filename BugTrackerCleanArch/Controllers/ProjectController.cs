@@ -4,9 +4,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using BugTracker.Application.ViewModels.Project;
+using BugTracker.Application.ViewModels.ProjectViewModels;
 using BugTracker.Core.Interfaces;
 using BugTracker.Core.Models;
+using BugTracker.Core.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,6 +69,13 @@ namespace BugTracker.Application.Controllers
             var userProjectResult = await _userProjectService.Create(userProject);
 
             return RedirectToAction("Index", "Project");
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var vm = new DetailViewModel { Project = await _projectService.FindOne(id) };
+
+            return View(vm);
         }
 
         [HttpPost]

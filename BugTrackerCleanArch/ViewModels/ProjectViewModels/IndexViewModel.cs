@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BugTracker.Application.ViewModels.Project
+namespace BugTracker.Application.ViewModels.ProjectViewModels
 {
     public class IndexViewModel
     {
