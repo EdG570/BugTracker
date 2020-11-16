@@ -218,46 +218,93 @@
     </div>
 </div>
 
-<div class="modal fade" id="ticket-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="ticket-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
-            <div class="card-header">
-
-            </div>
             <div class="modal-body">
-                <span class="modal-item" id="ticket-detail-title"><span class="text-muted">TITLE: </span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-id"><span class="text-muted">#</span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-type"><span class="text-muted">Type: </span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-priority"><span class="text-muted">Priority: </span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-status"><span class="text-muted">Status: </span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-createdby"><span class="text-muted">Requestor: </span><span class="text-val"></span></span>
-                <span class="modal-item" id="ticket-detail-createdon"><span class="text-muted"></span><span class="text-val text-muted"></span></span>
-                <span class="modal-item" id="ticket-detail-description"><span class="text-muted">Description: </span><span class="text-val"></span></span>
-            </div>
-            <div class="card comment-card">
-                <div class="card-body text-center comments-header">
-                    <h4 class="card-title">Comments</h4>
-                </div>
-                <div class="comment-widgets">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 pr-4" id="ticket-modal-detail">
+                            <h3 id="ticket-detail-title" class="modal-item mb-3"><span class="text-val"></span></h3>
+                            <span class="modal-item" id="ticket-detail-id"><span class="text-muted">#</span><span class="text-val"></span></span>
 
+                            <div class="row pb-2">
+                                <div class="col-2">
+                                    <p class="modal-item"><span class="text-muted">Description: </span></p>
+                                </div>
+                                <div class="col-10">
+                                    <span id="ticket-detail-description"><span class="text-val"></span></span>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="modal-item"><span class="text-muted">Type: </span></p>
+                                </div>
+                                <div class="col-10">
+                                    <span id="ticket-detail-type"><span class="text-val"></span></span>
+                                </div>
+                            </div>
 
-                </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="modal-item"><span class="text-muted">Priority </span></p>
+                                </div>
+                                <div class="col-10">
+                                    <span id="ticket-detail-priority"><span class="text-val"></span></span>
+                                </div>
+                            </div>
 
-                <div class="new-comment-cont">
-                    <form asp-controller="Comment" asp-action="Create" method="post" id="new-comment-form">
-                        @*@Html.HiddenFor(x => x.Id)*@
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="modal-item"><span class="text-muted">Status: </span></p>
+                                </div>
+                                <div class="col-10">
+                                    <span id="ticket-detail-status"><span class="text-val"></span></span>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            @*@Html.TextAreaFor(x => x.NewComment, new { @class = "form-control" })*@
-                            @*<textarea asp-for="" class="form-control" rows="3" placeholder="Enter a new comment here..."></textarea>*@
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="modal-item"><span class="text-muted">Requestor: </span></p>
+                                </div>
+                                <div class="col-10">
+                                    <span id="ticket-detail-createdby"><span class="text-val"></span></span>
+                                </div>
+                            </div>
+
+                            <p class="modal-item border-top pt-3" id="ticket-detail-createdon"><span class="text-muted">Created </span><span class="text-val text-muted"></span></p>
                         </div>
+                        <div class="col-lg-6 clearfix pl-4">
+                            <div class="card comment-card">
+                                <div class="card-body text-center comments-header">
+                                    <h3 class="text-center pb-2 border-bottom">Comments</h3>
+                                </div>
+                                <div class="comment-widgets">
 
-                        <button type="submit" class="btn btn-primary btn-block">Save Comment</button>
 
-                    </form>
+
+                                </div>
+
+                                <div class="new-comment-cont">
+                                    <form asp-controller="Comment" asp-action="Create" method="post" id="new-comment-form">
+                                        @*@Html.HiddenFor(x => x.Id)*@
+
+                                        <div class="form-group">
+                                            <textarea name="comment" id="comment-create" class="form-control" rows="3" placeholder="Enter a new comment here..."></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-block">Save Comment</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
+            
         </div>
     </div>
 </div>

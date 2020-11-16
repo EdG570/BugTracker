@@ -7,7 +7,7 @@
             data: { id: ticketId, status: status },
             success: function (data) {
                 var ticket = '#' + ticketId;
-                $(ticket).find('.status').text(status);
+                $(ticket).find('.status').text(data.status);
             },
             error: function () {
 
@@ -121,10 +121,10 @@ var uiTickets = (function () {
             case 0:
                 return 'Open';
                 break;
-            case 2:
+            case 1:
                 return 'In-Progress';
                 break;
-            case 4:
+            case 2:
                 return 'Closed';
                 break;
             default:

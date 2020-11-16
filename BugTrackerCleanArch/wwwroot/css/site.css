@@ -390,7 +390,6 @@ div.card.comment-card {
     background-clip: border-box;
     border: 0px solid transparent;
     border-radius: 0px;
-    overflow-y: auto;
 }
 
     div.card.comment-card .card-body {
@@ -526,52 +525,17 @@ img.checkmark-icon {
 /* --------------- Ticket Detail Modal ---------------- */
 
 #ticket-detail-modal .modal-body {
+    padding: 5em;
+}
+
+#ticket-modal-detail {
     position: relative;
-    height: 275px;
-}
-
-#ticket-detail-modal .modal-item {
-    position: absolute;
-}
-
-#ticket-detail-title {
-    left: 2em;
-    top: 2em;
 }
 
 #ticket-detail-id {
-    right: 2em;
-    top: 2em;
-}
-
-#ticket-detail-type {
-    top: 7em;
-    left: 2em;
-}
-
-#ticket-detail-priority {
-    left: 2em;
-    top: 9.5em;
-}
-
-#ticket-detail-status {
-    left: 2em;
-    top: 12em;
-}
-
-#ticket-detail-description {
-    left: 2em;
-    top: 14.5em;
-}
-
-#ticket-detail-createdby {
-    top: 4.5em;
-    left: 2em;
-}
-
-#ticket-detail-createdon {
-    right: 1em;
-    bottom: 1em;
+    position: absolute;
+    top: -3em;
+    left: -3em;
 }
 
 /* ----------------- Projects --------------- */

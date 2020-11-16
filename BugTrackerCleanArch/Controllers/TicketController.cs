@@ -50,7 +50,7 @@ namespace BugTracker.Application.Controllers
 
             var result = await _ticketService.Update(ticketFromDb);
 
-            return new JsonResult("success");
+            return new JsonResult(new { status });
         }
 
         [HttpPost]
