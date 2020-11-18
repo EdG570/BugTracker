@@ -173,6 +173,7 @@ var detail = (function () {
     $ticketItem.on('click', function () {
         var $ticket = $(this);
         var ticketId = $ticket.attr('id');
+        $('.comment-widgets').attr('id', ticketId); 
 
         ajaxTickets.findTicketById(ticketId);
     });

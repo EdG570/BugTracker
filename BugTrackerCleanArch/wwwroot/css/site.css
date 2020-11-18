@@ -365,6 +365,10 @@ table.table.table-responsive {
     top: 0.5em;
 }
 
+.ticket-cont:hover {
+    cursor: pointer;
+}
+
 /* ------------------------------------ Comments ------------------------------------ */
 
 .mt-100 {
@@ -396,7 +400,7 @@ div.card.comment-card {
         -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
         flex: 1 1 auto;
-        padding: 1.25rem;
+        padding: 1rem;
     }
 
     div.card.comment-card .card-title {
@@ -413,14 +417,14 @@ div.card.comment-card {
     margin-bottom: 10px;
 }
 
-    .comment-widgets .comment-row {
-        border-bottom: 1px solid transparent;
-        padding: 14px;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        margin: 0;
-    }
+.comment-widgets .comment-row {
+    border-bottom: 1px solid transparent;
+    padding: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+}
 
 .p-2 {
     padding: 0.5rem !important;
