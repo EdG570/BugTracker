@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using BugTracker.Application.Factories;
 using BugTracker.Application.ViewModels.ProjectViewModels;
 using BugTracker.Application.ViewModels.TicketViewModels;
 using BugTracker.Core.Interfaces;
@@ -80,9 +81,9 @@ namespace BugTracker.Application.Controllers
                 Project = await _projectService.FindOne(id),
                 TicketCreateVm = new TicketCreateViewModel
                 {
-                    PriorityOptions = _ticketService.GetPrioritySelectListItems(),
-                    StatusOptions = _ticketService.GetStatusSelectListItems(),
-                    TypeOptions = _ticketService.GetTicketTypeSelectListItems(),
+                    PriorityOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Priority),
+                    StatusOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Status),
+                    TypeOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Type),
                     ProjectUsers = await _projectService.GetUsersAsSelectListItemsByProjectId(id),
                     ProjectId = id
                 }
