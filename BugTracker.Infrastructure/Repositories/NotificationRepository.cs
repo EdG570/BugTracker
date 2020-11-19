@@ -42,7 +42,8 @@ namespace BugTracker.Infrastructure.Repositories
 
         public async Task<IEnumerable<Notification>> GetAll()
         {
-            return await _context.Notifications.ToListAsync();
+            return await _context.Notifications.Include(x => x.AppUser)
+                                               .ToListAsync();
         }
 
         public async Task SaveChanges()

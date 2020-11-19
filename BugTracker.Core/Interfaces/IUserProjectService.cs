@@ -9,5 +9,7 @@ namespace BugTracker.Core.Interfaces
     public interface IUserProjectService : IGenericService<UserProject>
     {
         Task<IEnumerable<UserProject>> GetAllByUserId(int id);
+        Task<IEnumerable<AppUser>> GetUserCollabsByProjectId(int id);
+        Task<IEnumerable<AppUser>> GetNonCollabUsersByProjectId(int id);
     }
 }

@@ -20,11 +20,17 @@ namespace BugTracker.Infrastructure.Repositories
 
         public async Task<AppUser> FindOne(int id)
         {
-            return await _context.AppUsers.Include(x => x.UserProjects)
+            return await _context.AppUsers.Include(x => x.Notifications)
+                                          .Include(x => x.UserProjects)
                                           .ThenInclude(x => x.Project)
                                           .ThenInclude(x => x.Tickets)
                                           .ThenInclude(x => x.Comments)
                                           .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<AppUser>> GetAll()
+        {
+            return await _context.AppUsers.ToListAsync();
         }
     }
 }

@@ -551,3 +551,29 @@ img.checkmark-icon {
 .project-edit-btn:hover {
     cursor: pointer;
 }
+
+.notification-cont {
+    position: relative;
+    right: 40em;
+    max-width: 10em;
+}
+
+#notification-count {
+    position: absolute;
+    right: 7px;
+    color: #fff;
+    border: red;
+    background-color: red;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+}
+
+#notification-icon {
+    width: 22px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

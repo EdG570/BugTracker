@@ -48,6 +48,28 @@ namespace BugTracker.Core.Services
             return userProjects;
         }
 
+        public async Task<IEnumerable<AppUser>> GetUserCollabsByProjectId(int id)
+        {
+            var userProjects = await _userProjectRepo.GetAll();
+
+            return userProjects.Where(x => x.ProjectId == id)
+                               .Select(x => x.AppUser)
+                               .Distinct();
+        }
+
+        public async Task<IEnumerable<AppUser>> GetNonCollabUsersByProjectId(int id)
+        {
+            var userProjects = await _userProjectRepo.GetAll();
+
+            var collabs = userProjects.Where(x => x.ProjectId == id)
+                                      .Select(x => x.AppUser)
+                                      .Distinct();
+
+            return userProjects.Where(x => x.ProjectId != id && !collabs.Contains(x.AppUser))
+                               .Select(x => x.AppUser)
+                               .Distinct();
+        }
+
         public async Task<int> Update(UserProject entity)
         {
             return await _userProjectRepo.Update(entity);

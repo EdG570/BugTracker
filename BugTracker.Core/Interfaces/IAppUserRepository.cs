@@ -9,5 +9,7 @@ namespace BugTracker.Core.Interfaces
     public interface IAppUserRepository
     {
         Task<AppUser> FindOne(int id);
+        Task<IEnumerable<AppUser>> GetAll();
     }
+
 }

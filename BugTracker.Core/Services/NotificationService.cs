@@ -2,6 +2,7 @@
 using BugTracker.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +35,14 @@ namespace BugTracker.Core.Services
         public async Task<IEnumerable<Notification>> GetAll()
         {
             return await _notificationRepo.GetAll();
+        }
+
+        public async Task<IEnumerable<Notification>> GetAllByUserId(int id)
+        {
+            var notifications = await _notificationRepo.GetAll();
+
+            return notifications.Where(x => x.AppUser.Id == id && x.IsAcknowleged == false);
+
         }
 
         public async Task<int> Update(Notification entity)

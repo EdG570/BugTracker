@@ -43,6 +43,7 @@ namespace BugTracker.Infrastructure.Repositories
         public async Task<IEnumerable<UserProject>> GetAll()
         {
             return await _context.UserProjects.Include(x => x.Project)
+                                              .Include(x => x.AppUser)
                                               .ToListAsync();
         }
 

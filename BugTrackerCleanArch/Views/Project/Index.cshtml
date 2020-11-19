@@ -1,17 +1,68 @@
 ﻿@model BugTracker.Application.ViewModels.ProjectViewModels.IndexViewModel
 
+@{
+    var action = ViewContext.RouteData.Values["action"].ToString();
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+}
+
 <div class="row">
     <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
-        <partial name="_DashboardLeftSideBar" />
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="left-sidebar-link @(controller == "Project" ? "active-link" : "")" asp-area="" asp-controller="Project" asp-action="Index">PROJECTS</a>
+
+            if ((controller == "Project" && action == "Detail") || controller == "AppUser")
+            {
+                <a class="left-sidebar-link @(controller == "AppUser" ? "active-link" : "")" asp-area="" asp-controller="AppUser" asp-action="Collaborate" asp-route-id="">COLLABORATORS</a>
+            }
+        }
     </div>
 
-    <div class="col-md-10 col-lg-11 pt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-12">
-                <button id="project-create-btn" class="btn btn-success">+ New Project</button>
-            </div>
+    <div class="col-md-10 col-lg-11">
+
+        <div class="row mb-5">
+            <nav class="navbar w-100 p-0 bg-white">
+                <div class="secondary-nav w-100">
+                    <ul class="nav justify-content-start d-inline-block bg-light">
+                        <li class="nav-item justify-content-start p-2 ml-5">
+                            <button id="project-create-btn" class="btn btn-outline-success">+ New Project</button>
+                        </li>
+                        
+                    </ul>
+                    <ul class="nav d-inline-block float-right bg-light notification-cont">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img id="notification-icon" src="~/images/notification.png" alt="notification icon" />
+                                <span id="notification-count">@Model.User.Notifications.Count()</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                @foreach (var notification in Model.User.Notifications)
+                                {
+                                    <p class="dropdown-item">@notification.Message</p>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="dropdown-item">
+                                        <button class="btn btn-sm btn-danger">Decline</button>
+                                        <button class="btn btn-sm btn-success">Accept</button>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                }
+
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
+
         <div class="row justify-content-center" id="project-card-cont">
+
+            @if (Model.User.UserProjects == null || Model.User.UserProjects.Count() == 0)
+            {
+                <div class="alert alert-light mt-5 p-5">
+                    <h6>You currently do not have any active projects. Create a new project by clicking on the green 'New Project' button at the top left of the dashboard to get started!</h6> 
+                </div>
+            }
 
             @foreach (var userProject in Model.User.UserProjects)
             {
@@ -87,7 +138,7 @@
                 <form id="project-edit-form" method="post">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" name="name" class="form-control" id="project-edit-name"  />
+                        <input type="text" name="name" class="form-control" id="project-edit-name" />
                         <span asp-validation-for="NewProjectName" class="text-danger"></span>
                     </div>
 
@@ -99,7 +150,7 @@
 
                     <div class="form-group">
                         <label for="link">Repository Link:</label>
-                        <input id="project-edit-link" class="form-control" type="url" name="link"  />
+                        <input id="project-edit-link" class="form-control" type="url" name="link" />
                         <span asp-validation-for="NewProjectRepoUrl" class="text-danger"></span>
                     </div>
 

@@ -1,11 +1,24 @@
 ﻿@model BugTracker.Application.ViewModels.ProjectViewModels.DetailViewModel
 @using BugTracker.Core.Models.Enums
 
+@{
+    var action = ViewContext.RouteData.Values["action"].ToString();
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+}
+
 
 <div class="row">
 
     <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
-        <partial name="_DashboardLeftSideBar" />
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="left-sidebar-link @(controller == "Project" ? "active-link" : "")" asp-area="" asp-controller="Project" asp-action="Index">PROJECTS</a>
+
+            if ((controller == "Project" && action == "Detail") || controller == "AppUser")
+            {
+                <a class="left-sidebar-link @(controller == "AppUser" ? "active-link" : "")" asp-area="" asp-controller="AppUser" asp-action="Collaborate" asp-route-id="@Model.Project.Id">COLLABORATORS</a>
+            }
+        }
     </div>
 
     <div class="col-md-10 col-lg-11">
@@ -302,9 +315,9 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
     </div>
 </div>

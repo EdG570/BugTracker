@@ -1,4 +1,6 @@
-﻿@{
+﻿@model BugTracker.Application.ViewModels.ProjectViewModels.DetailViewModel
+
+@{
     var action = ViewContext.RouteData.Values["action"].ToString();
     var controller = ViewContext.RouteData.Values["controller"].ToString();
 }
@@ -6,28 +8,11 @@
 @if (User.Identity.IsAuthenticated)
 {
     <a class="left-sidebar-link @(controller == "Project" ? "active-link" : "")" asp-area="" asp-controller="Project" asp-action="Index">PROJECTS</a>
-    <a class="left-sidebar-link @(controller == "Ticket" ? "active-link" : "")" asp-area="" asp-controller="Ticket" asp-action="Index">TICKETS</a>
+
+    if ((controller == "Project" && action == "Detail") || controller == "AppUser")
+    {
+        <a class="left-sidebar-link @(controller == "AppUser" ? "active-link" : "")" asp-area="" asp-controller="AppUser" asp-action="Collaborate" asp-route-id="">COLLABORATORS</a>
+    }
 }
 
-@if (User.IsInRole("TeamMember"))
-{
-    <a class="left-sidebar-link @(controller == "Category" ? "active-link" : "")" asp-area="" asp-controller="Category" asp-action="Index">CATEGORIES</a>
-    <a class="left-sidebar-link @(controller == "Product" ? "active-link" : "")" asp-area="" asp-controller="Products" asp-action="Index">PRODUCTS</a>
-    <span class="left-sidebar-link @(controller == "" ? "active-link" : "")" id="invite-link">+ INVITE</span>
-}
 
-@if (User.IsInRole("TeamLead"))
-{
-    <a class="left-sidebar-link @(controller == "Category" ? "active-link" : "")" asp-area="" asp-controller="Category" asp-action="Index">CATEGORIES</a>
-    <a class="left-sidebar-link @(controller == "Product" ? "active-link" : "")" asp-area="" asp-controller="Products" asp-action="Index">PRODUCTS</a>
-    <a class="left-sidebar-link @(controller == "Team" ? "active-link" : "")" asp-area="" asp-controller="Team" asp-action="Index">TEAMS</a>
-    <span class="left-sidebar-link @(controller == "" ? "active-link" : "")" id="invite-link">+ INVITE</span>
-}
-
-@if (User.IsInRole("Admin"))
-{
-    <a class="left-sidebar-link @(controller == "Category" ? "active-link" : "")" asp-area="" asp-controller="Category" asp-action="Index">CATEGORIES</a>
-    <a class="left-sidebar-link @(controller == "Product" ? "active-link" : "")" asp-area="" asp-controller="Products" asp-action="Index">PRODUCTS</a>
-    <a class="left-sidebar-link @(controller == "Team" ? "active-link" : "")" asp-area="" asp-controller="Team" asp-action="Index">TEAMS</a>
-    <span class="left-sidebar-link @(controller == "" ? "active-link" : "")" id="invite-link">+ INVITE</span>
-}

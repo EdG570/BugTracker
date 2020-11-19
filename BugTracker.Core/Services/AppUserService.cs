@@ -21,5 +21,9 @@ namespace BugTracker.Core.Services
             return await _appUserRepo.FindOne(id);
         }
 
+        public async Task<IEnumerable<AppUser>> GetAll()
+        {
+            return await _appUserRepo.GetAll();
+        }
     }
 }

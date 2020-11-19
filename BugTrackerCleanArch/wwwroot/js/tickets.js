@@ -1,5 +1,5 @@
 ﻿
-    var ajax = (function () {
+    var ajaxTickets = (function () {
 
         var updateStatus = function (ticketId, status) {
             $.ajax({
@@ -64,7 +64,7 @@
                 $createdBy.text(ticket.createdBy);
                 $createdOn.text(ticket.createdAt);
 
-                comments.addComments(ticket.comments);
+                comments.init(ticket.comments);
 
                 ui.displayModal();
             },
@@ -145,14 +145,14 @@
                 });
             },
             init: function (comments) {
-                clearComments();
+                this.clearComments();
 
                 if (comments.length == 0) {
-                    displayNoCommentsMessage();
+                    this.displayNoCommentsMessage();
                     return false;
                 } 
 
-                addComments(comments);
+                this.addComments(comments);
             }
         };
 
@@ -161,7 +161,7 @@
             var ticketId = $ticket.attr('id');
             $('.comment-widgets').attr('id', ticketId);
 
-            ajax.findById(ticketId);
+            ajaxTickets.findById(ticketId);
         });
         
 
@@ -171,7 +171,7 @@
 
     })();
 
-    var create = (function () {
+    var createTicket = (function () {
         var $modalInitBtn = $('#ticket-create-init-btn');
         var $createModal = $('#ticket-create-modal');
 
@@ -223,7 +223,7 @@
                 var ticketId = dropped.attr('id');
 
                 $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-                ajax.updateStatus(ticketId, 'Open');
+                ajaxTickets.updateStatus(ticketId, 'Open');
             },
             over: function (event, elem) {
                 $(this).addClass("over");
@@ -240,7 +240,7 @@
                 var ticketId = dropped.attr('id');
 
                 $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-                ajax.updateStatus(ticketId, 'InProgress');
+                ajaxTickets.updateStatus(ticketId, 'InProgress');
             },
             over: function (event, elem) {
                 $(this).addClass("over");
@@ -257,7 +257,7 @@
                 var ticketId = dropped.attr('id');
 
                 $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
-                ajax.updateStatus(ticketId, 'Closed');
+                ajaxTickets.updateStatus(ticketId, 'Closed');
             },
             over: function (event, elem) {
                 $(this).addClass("over");
