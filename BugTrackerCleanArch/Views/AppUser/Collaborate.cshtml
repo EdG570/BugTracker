@@ -19,14 +19,15 @@
         }
     </div>
 
-    <div class="col-md-10 col-lg-11">
+    <div class="col-md-10 col-lg-11 padding-top-6">
         <div class="row justify-content-center">
             <div class="col-lg-3">
-                <form asp-controller="Notification" asp-action="Create" method="post">
+                <form class="form bg-white p-3 border-radius-5" asp-controller="Notification" asp-action="Create" method="post">
                     @Html.HiddenFor(x => x.ProjectId)
-
+                    <div class="bg-secondary text-white">
+                        <h3 class="text-center p-3 border-radius-5">Invite New Collaborators:</h3>
+                    </div>
                     <div class="form-group">
-                        <label asp-for="SelectedCollaborators">Invite New Collaborators:</label>
                         <select multiple asp-for="SelectedCollaborators" asp-items="Model.NonCollaborators" class="form-control"></select>
                         <span asp-validation-for="SelectedCollaborators" class="text-danger"></span>
                     </div>
