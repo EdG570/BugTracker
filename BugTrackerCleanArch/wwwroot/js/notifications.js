@@ -29,7 +29,7 @@
             $buttonCont.next('div').remove();
             $buttonCont.remove();
 
-            redirect.redirectToAction('/Project/Index');
+            location.reload();
         }
 
     };
