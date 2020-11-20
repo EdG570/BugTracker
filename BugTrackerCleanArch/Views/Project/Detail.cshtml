@@ -6,344 +6,337 @@
     var controller = ViewContext.RouteData.Values["controller"].ToString();
 }
 
+    <div class="row">
 
-<div class="row">
-
-    <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a class="left-sidebar-link @(controller == "Project" ? "active-link" : "")" asp-area="" asp-controller="Project" asp-action="Index">PROJECTS</a>
-
-            if ((controller == "Project" && action == "Detail") || controller == "AppUser")
+        <div class="sidebar sidebar-left col-md-2 col-lg-1 p-0 pt-md-5 h-100 mh-100">
+            @if (User.Identity.IsAuthenticated)
             {
-                <a class="left-sidebar-link @(controller == "AppUser" ? "active-link" : "")" asp-area="" asp-controller="AppUser" asp-action="Collaborate" asp-route-id="@Model.Project.Id">COLLABORATORS</a>
+                <a class="left-sidebar-link @(controller == "Project" ? "active-link" : "")" asp-area="" asp-controller="Project" asp-action="Index">PROJECTS</a>
+
+                if ((controller == "Project" && action == "Detail") || controller == "AppUser")
+                {
+                    <a class="left-sidebar-link @(controller == "AppUser" ? "active-link" : "")" asp-area="" asp-controller="AppUser" asp-action="Collaborate" asp-route-id="@Model.Project.Id">COLLABORATORS</a>
+                }
             }
-        }
-    </div>
+        </div>
 
-    <div class="col-md-10 col-lg-11">
-        <div class="row mb-5">
-            <nav class="navbar w-100 p-0 bg-white">
-                <div class="secondary-nav w-100">
-                    <ul class="nav justify-content-start d-inline-block bg-light">
-                        <li class="nav-item justify-content-start p-2 ml-5">
-                            @*<button id="project-create-btn" class="btn btn-outline-success">+ New Project</button>*@
-                        </li>
+        <div class="col-md-10 col-lg-11">
+            <div class="row mb-5">
+                <nav class="navbar w-100 p-0 bg-white">
+                    <div class="secondary-nav w-100">
+                        <ul class="nav justify-content-start d-inline-block bg-light">
+                            <li class="nav-item justify-content-start p-2 ml-5">
+                                <button id="ticket-create-init-btn" class="btn btn-outline-success">+ New Ticket</button>
+                            </li>
 
-                    </ul>
-                    <ul class="nav d-inline-block float-right bg-light notification-cont">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img id="notification-icon" src="~/images/notification.png" alt="notification icon" />
-                                <span id="notification-count">@Model.Notifications.Where(x => x.IsAcknowleged == false).Count()</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                @foreach (var notification in Model.Notifications)
-                                {
-                                    if (notification.IsAcknowleged == false)
+                        </ul>
+                        <ul class="nav d-inline-block float-right bg-light notification-cont">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img id="notification-icon" src="~/images/notification.png" alt="notification icon" />
+                                    <span id="notification-count">@Model.Notifications.Where(x => x.IsAcknowleged == false).Count()</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    @foreach (var notification in Model.Notifications)
                                     {
-                                        <p class="dropdown-item">@notification.Message</p>
-                                        <div class="dropdown-divider"></div>
-                                        <div class="dropdown-item" id="@notification.Id">
-                                            <a class="btn btn-sm btn-danger decline">Decline</a>
-                                            <a class="btn btn-sm btn-success accept">Accept</a>
-                                        </div>
-                                        <div class="dropdown-divider"></div>
+                                        if (notification.IsAcknowleged == false)
+                                        {
+                                            <p class="dropdown-item">@notification.Message</p>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="dropdown-item" id="@notification.Id">
+                                                <a class="btn btn-sm btn-danger decline">Decline</a>
+                                                <a class="btn btn-sm btn-success accept">Accept</a>
+                                            </div>
+                                            <div class="dropdown-divider"></div>
+                                        }
                                     }
-                                }
 
 
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="row d-flex align-items-stretch justify-content-center">
+                <div class="col-xl-3 p-xl-3 p-1 box-shadow" id="backlog-container">
+                    <h6 class="text-secondary ticket-cont-header">BACKLOG</h6>
+                    @foreach (var ticket in Model.Project.Tickets)
+                    {
+                        if (ticket.Status == Status.Open)
+                        {
+                            <div class="card mb-1 box-shadow ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                                <div class="card-body">
+                                    <h6 class="card-title">@ticket.Title</h6>
+                                    <span class="card-ticket-number">#@ticket.Id</span>
+                                    <hr />
+                                    <span class="ticket-type">@ticket.Type</span>
+                                    <span class="status">@ticket.Status</span>
+                                    <span class="priority float-right">
+                                        @if (ticket.Priority == Priority.Urgent)
+                                        {
+                                            <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                        }
+                                        else if (ticket.Priority == Priority.High)
+                                        {
+                                            <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Medium)
+                                        {
+                                            <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Low)
+                                        {
+                                            <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                        }
+                                        else
+                                        {
+                                            @ticket.Priority
+                                        }
+
+                                    </span>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
+                        }
+                    }
                 </div>
-            </nav>
-        </div>
-        <div class="row mb-2 padding-top-3 justify-content-center">
-            <div class="col-11">
-                <button id="ticket-create-init-btn" class="btn btn-success">+ New Ticket</button>
-            </div>
-        </div>
-        <div class="row d-flex align-items-stretch justify-content-center">
-            <div class="col-xl-3 p-xl-3 p-1 box-shadow" id="backlog-container">
-                <h6 class="text-secondary ticket-cont-header">BACKLOG</h6>
-                @foreach (var ticket in Model.Project.Tickets)
-                {
-                    if (ticket.Status == Status.Open)
+                <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="dev-container">
+                    <h6 class="text-secondary ticket-cont-header">IN-PROGRESS</h6>
+                    @foreach (var ticket in Model.Project.Tickets)
                     {
-                        <div class="card mb-1 box-shadow ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
-                            <div class="card-body">
-                                <h6 class="card-title">@ticket.Title</h6>
-                                <span class="card-ticket-number">#@ticket.Id</span>
-                                <hr />
-                                <span class="ticket-type">@ticket.Type</span>
-                                <span class="status">@ticket.Status</span>
-                                <span class="priority float-right">
-                                    @if (ticket.Priority == Priority.Urgent)
-                                    {
-                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
-                                    }
-                                    else if (ticket.Priority == Priority.High)
-                                    {
-                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Medium)
-                                    {
-                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Low)
-                                    {
-                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
-                                    }
-                                    else
-                                    {
-                                        @ticket.Priority
-                                    }
+                        if (ticket.Status == Status.InProgress)
+                        {
+                            <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                                <div class="card-body">
+                                    <h6 class="card-title">@ticket.Title</h6>
+                                    <span class="card-ticket-number">#@ticket.Id</span>
+                                    <hr />
+                                    <span class="ticket-type">@ticket.Type</span>
+                                    <span class="status">@ticket.Status</span>
+                                    <span class="priority float-right">
+                                        @if (ticket.Priority == Priority.Urgent)
+                                        {
+                                            <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                        }
+                                        else if (ticket.Priority == Priority.High)
+                                        {
+                                            <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Medium)
+                                        {
+                                            <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Low)
+                                        {
+                                            <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                        }
+                                        else
+                                        {
+                                            @ticket.Priority
+                                        }
 
-                                </span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
-            </div>
-            <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="dev-container">
-                <h6 class="text-secondary ticket-cont-header">IN-PROGRESS</h6>
-                @foreach (var ticket in Model.Project.Tickets)
-                {
-                    if (ticket.Status == Status.InProgress)
+                </div>
+                <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="completed-container">
+                    <h6 class="text-secondary ticket-cont-header">COMPLETED</h6>
+                    @foreach (var ticket in Model.Project.Tickets)
                     {
-                        <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
-                            <div class="card-body">
-                                <h6 class="card-title">@ticket.Title</h6>
-                                <span class="card-ticket-number">#@ticket.Id</span>
-                                <hr />
-                                <span class="ticket-type">@ticket.Type</span>
-                                <span class="status">@ticket.Status</span>
-                                <span class="priority float-right">
-                                    @if (ticket.Priority == Priority.Urgent)
-                                    {
-                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
-                                    }
-                                    else if (ticket.Priority == Priority.High)
-                                    {
-                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Medium)
-                                    {
-                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Low)
-                                    {
-                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
-                                    }
-                                    else
-                                    {
-                                        @ticket.Priority
-                                    }
+                        if (ticket.Status == Status.Closed)
+                        {
+                            <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
+                                <div class="card-body">
+                                    <h6 class="card-title">@ticket.Title</h6>
+                                    <span class="card-ticket-number">#@ticket.Id</span>
+                                    <hr />
+                                    <span class="ticket-type">@ticket.Type</span>
+                                    <span class="status">@ticket.Status</span>
+                                    <span class="priority float-right">
+                                        @if (ticket.Priority == Priority.Urgent)
+                                        {
+                                            <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
+                                        }
+                                        else if (ticket.Priority == Priority.High)
+                                        {
+                                            <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Medium)
+                                        {
+                                            <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
+                                        }
+                                        else if (ticket.Priority == Priority.Low)
+                                        {
+                                            <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
+                                        }
+                                        else
+                                        {
+                                            @ticket.Priority
+                                        }
 
-                                </span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
-            </div>
-            <div class="col-xl-3 p-xl-3 p-1 offset-xl-1 box-shadow" id="completed-container">
-                <h6 class="text-secondary ticket-cont-header">COMPLETED</h6>
-                @foreach (var ticket in Model.Project.Tickets)
-                {
-                    if (ticket.Status == Status.Closed)
-                    {
-                        <div class="card box-shadow mb-1 ticket-cont mx-auto ticket-item" id="@ticket.Id" title="Description: @ticket.Description">
-                            <div class="card-body">
-                                <h6 class="card-title">@ticket.Title</h6>
-                                <span class="card-ticket-number">#@ticket.Id</span>
-                                <hr />
-                                <span class="ticket-type">@ticket.Type</span>
-                                <span class="status">@ticket.Status</span>
-                                <span class="priority float-right">
-                                    @if (ticket.Priority == Priority.Urgent)
-                                    {
-                                        <img class="flame-icon" src="~/images/flame.png" alt="priority icon" title="Urgent" />
-                                    }
-                                    else if (ticket.Priority == Priority.High)
-                                    {
-                                        <img class="flame-icon" src="~/images/high-priority.png" alt="priority icon" title="High Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Medium)
-                                    {
-                                        <img class="flame-icon" src="~/images/med-priority.png" alt="priority icon" title="Medium Priority" />
-                                    }
-                                    else if (ticket.Priority == Priority.Low)
-                                    {
-                                        <img class="flame-icon" src="~/images/low-priority.png" alt="priority icon" title="Low Priority" />
-                                    }
-                                    else
-                                    {
-                                        @ticket.Priority
-                                    }
-
-                                </span>
-                            </div>
-                        </div>
-                    }
-                }
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="ticket-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-secondary text-center">
-                <h5 class="modal-title text-center text-white" id="exampleModalCenterTitle">Create Ticket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="Ticket" asp-action="Create" method="post" class="form box-shadow" id="ticket-create-form">
-                    @Html.HiddenFor(x => x.Project.Id)
+    <div class="modal fade" id="ticket-create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-center">
+                    <h5 class="modal-title text-center text-white" id="exampleModalCenterTitle">Create Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Ticket" asp-action="Create" method="post" class="form box-shadow" id="ticket-create-form">
+                        @Html.HiddenFor(x => x.Project.Id)
 
-                    <div class="form-group">
-                        <label asp-for="TicketCreateVm.Title">Title:</label>
-                        <input id="create-title" asp-for="TicketCreateVm.Title" class="form-control box-shadow" type="text" />
-                        <span asp-validation-for="TicketCreateVm.Title" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="TicketCreateVm.Title">Title:</label>
+                            <input id="create-title" asp-for="TicketCreateVm.Title" class="form-control box-shadow" type="text" />
+                            <span asp-validation-for="TicketCreateVm.Title" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="TicketCreateVm.Type">Type:</label>
-                        <select id="create-type" asp-for="TicketCreateVm.Type" asp-items="Model.TicketCreateVm.TypeOptions" class="form-control"></select>
-                        <span asp-validation-for="TicketCreateVm.Type" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="TicketCreateVm.Type">Type:</label>
+                            <select id="create-type" asp-for="TicketCreateVm.Type" asp-items="Model.TicketCreateVm.TypeOptions" class="form-control"></select>
+                            <span asp-validation-for="TicketCreateVm.Type" class="text-danger"></span>
+                        </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="TicketCreateVm.Priority">Priority:</label>
-                                <select id="create-priority" asp-for="TicketCreateVm.Priority" asp-items="@Model.TicketCreateVm.PriorityOptions" class="form-control"></select>
-                                <span asp-validation-for="TicketCreateVm.Priority" class="text-danger"></span>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label asp-for="TicketCreateVm.Priority">Priority:</label>
+                                    <select id="create-priority" asp-for="TicketCreateVm.Priority" asp-items="@Model.TicketCreateVm.PriorityOptions" class="form-control"></select>
+                                    <span asp-validation-for="TicketCreateVm.Priority" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label asp-for="TicketCreateVm.AssignedToId">Assign To:</label>
+                                    <select id="create-assign" asp-for="TicketCreateVm.AssignedToId" asp-items="@Model.TicketCreateVm.ProjectUsers" class="form-control"></select>
+                                    <span asp-validation-for="TicketCreateVm.AssignedToId" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="TicketCreateVm.AssignedToId">Assign To:</label>
-                                <select id="create-assign" asp-for="TicketCreateVm.AssignedToId" asp-items="@Model.TicketCreateVm.ProjectUsers" class="form-control"></select>
-                                <span asp-validation-for="TicketCreateVm.AssignedToId" class="text-danger"></span>
+                        <div class="form-group">
+                            <label asp-for="TicketCreateVm.Description">Description:</label>
+                            @Html.TextAreaFor(x => x.TicketCreateVm.Description, 4, 4, new { @class = "form-control", id = "create-description" })
+                            <span asp-validation-for="TicketCreateVm.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col-4">
+                                <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.TicketCreateVm.ProjectId" class="btn btn-secondary">Cancel</a>
+                                <input id="ticket-create-form-btn" type="submit" class="btn btn-primary" value="Save" />
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="TicketCreateVm.Description">Description:</label>
-                        @Html.TextAreaFor(x => x.TicketCreateVm.Description, 4, 4, new { @class = "form-control", id = "create-description" })
-                        <span asp-validation-for="TicketCreateVm.Description" class="text-danger"></span>
-                    </div>
-
-                    <div class="row justify-content-end">
-                        <div class="col-4">
-                            <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.TicketCreateVm.ProjectId" class="btn btn-secondary">Cancel</a>
-                            <input id="ticket-create-form-btn" type="submit" class="btn btn-primary" value="Save" />
-                        </div>
-                    </div>
 
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="ticket-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-6 pr-4" id="ticket-modal-detail">
-                            <h3 id="ticket-detail-title" class="modal-item mb-3"><span class="text-val"></span></h3>
-                            <span class="modal-item" id="ticket-detail-id"><span class="text-muted">#</span><span class="text-val"></span></span>
+    <div class="modal fade" id="ticket-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6 pr-4" id="ticket-modal-detail">
+                                <h3 id="ticket-detail-title" class="modal-item mb-3"><span class="text-val"></span></h3>
+                                <span class="modal-item" id="ticket-detail-id"><span class="text-muted">#</span><span class="text-val"></span></span>
 
-                            <div class="row pb-2">
-                                <div class="col-2">
-                                    <p class="modal-item"><span class="text-muted">Description: </span></p>
+                                <div class="row pb-2">
+                                    <div class="col-2">
+                                        <p class="modal-item"><span class="text-muted">Description: </span></p>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="ticket-detail-description"><span class="text-val"></span></span>
+                                    </div>
                                 </div>
-                                <div class="col-10">
-                                    <span id="ticket-detail-description"><span class="text-val"></span></span>
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="modal-item"><span class="text-muted">Type: </span></p>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="ticket-detail-type"><span class="text-val"></span></span>
+                                    </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="modal-item"><span class="text-muted">Priority </span></p>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="ticket-detail-priority"><span class="text-val"></span></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="modal-item"><span class="text-muted">Status: </span></p>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="ticket-detail-status"><span class="text-val"></span></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="modal-item"><span class="text-muted">Requestor: </span></p>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="ticket-detail-createdby"><span class="text-val"></span></span>
+                                    </div>
+                                </div>
+
+                                <p class="modal-item border-top pt-3" id="ticket-detail-createdon"><span class="text-muted">Created </span><span class="text-val text-muted"></span></p>
                             </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <p class="modal-item"><span class="text-muted">Type: </span></p>
-                                </div>
-                                <div class="col-10">
-                                    <span id="ticket-detail-type"><span class="text-val"></span></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <p class="modal-item"><span class="text-muted">Priority </span></p>
-                                </div>
-                                <div class="col-10">
-                                    <span id="ticket-detail-priority"><span class="text-val"></span></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <p class="modal-item"><span class="text-muted">Status: </span></p>
-                                </div>
-                                <div class="col-10">
-                                    <span id="ticket-detail-status"><span class="text-val"></span></span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <p class="modal-item"><span class="text-muted">Requestor: </span></p>
-                                </div>
-                                <div class="col-10">
-                                    <span id="ticket-detail-createdby"><span class="text-val"></span></span>
-                                </div>
-                            </div>
-
-                            <p class="modal-item border-top pt-3" id="ticket-detail-createdon"><span class="text-muted">Created </span><span class="text-val text-muted"></span></p>
-                        </div>
-                        <div class="col-lg-6 clearfix pl-4">
-                            <div class="card comment-card">
-                                <div class="card-body text-center comments-header">
-                                    <h3 class="text-center pb-2 border-bottom">Comments</h3>
-                                </div>
-                                <div class="comment-widgets" id="">
+                            <div class="col-lg-6 clearfix pl-4">
+                                <div class="card comment-card">
+                                    <div class="card-body text-center comments-header">
+                                        <h3 class="text-center pb-2 border-bottom">Comments</h3>
+                                    </div>
+                                    <div class="comment-widgets" id="">
 
 
 
-                                </div>
+                                    </div>
 
-                                <div class="new-comment-cont">
-                                    <form method="post" id="new-comment-form">
-                                        @*@Html.HiddenFor(x => x.Id)*@
+                                    <div class="new-comment-cont">
+                                        <form method="post" id="new-comment-form">
+                                            @*@Html.HiddenFor(x => x.Id)*@
 
-                                        <div class="form-group">
-                                            <textarea name="comment" id="comment-create" class="form-control" rows="3" placeholder="Enter a new comment here..."></textarea>
-                                        </div>
+                                            <div class="form-group">
+                                                <textarea name="comment" id="comment-create" class="form-control" rows="3" placeholder="Enter a new comment here..."></textarea>
+                                            </div>
 
-                                        <button type="button" class="btn btn-primary btn-block" id="new-comment-btn">Save Comment</button>
+                                            <button type="button" class="btn btn-primary btn-block" id="new-comment-btn">Save Comment</button>
 
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
-</div>
 
 
 @section Scripts {
