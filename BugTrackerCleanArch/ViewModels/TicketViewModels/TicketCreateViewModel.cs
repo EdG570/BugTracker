@@ -19,7 +19,7 @@ namespace BugTracker.Application.ViewModels.TicketViewModels
 
         public string Priority { get; set; }
         public string Status { get; set; }
-        public string Type { get; set; }
+        public string Type { get; set; }   
         public IEnumerable<SelectListItem> PriorityOptions { get; set; }
         public IEnumerable<SelectListItem> StatusOptions { get; set; }
         public IEnumerable<SelectListItem> TypeOptions { get; set; }

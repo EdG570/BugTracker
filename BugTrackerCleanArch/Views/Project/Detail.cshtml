@@ -22,15 +22,38 @@
     </div>
 
     <div class="col-md-10 col-lg-11">
-        <div class="row justify-content-center">
-            <nav class="navbar w-100 p-0">
+        <div class="row mb-5">
+            <nav class="navbar w-100 p-0 bg-white">
                 <div class="secondary-nav w-100">
-                    <ul class="navbar-nav flex-row w-100 bg-light">
-                        <li class="nav-item justify-content-start p-2">
-                            <a class="nav-link text-dark" asp-controller="Project" asp-action="Index">Projects</a>
+                    <ul class="nav justify-content-start d-inline-block bg-light">
+                        <li class="nav-item justify-content-start p-2 ml-5">
+                            @*<button id="project-create-btn" class="btn btn-outline-success">+ New Project</button>*@
                         </li>
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Users</a>
+
+                    </ul>
+                    <ul class="nav d-inline-block float-right bg-light notification-cont">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img id="notification-icon" src="~/images/notification.png" alt="notification icon" />
+                                <span id="notification-count">@Model.Notifications.Where(x => x.IsAcknowleged == false).Count()</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                @foreach (var notification in Model.Notifications)
+                                {
+                                    if (notification.IsAcknowleged == false)
+                                    {
+                                        <p class="dropdown-item">@notification.Message</p>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="dropdown-item" id="@notification.Id">
+                                            <a class="btn btn-sm btn-danger decline">Decline</a>
+                                            <a class="btn btn-sm btn-success accept">Accept</a>
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                }
+
+
+                            </div>
                         </li>
                     </ul>
                 </div>

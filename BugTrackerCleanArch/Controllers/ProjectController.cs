@@ -23,15 +23,19 @@ namespace BugTracker.Application.Controllers
         private readonly IProjectService _projectService;
         private readonly IUserProjectService _userProjectService;
         private readonly ITicketService _ticketService;
+        private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IAppUserService appUserService, IProjectService projectService, IUserProjectService userProjectService, IMapper mapper, ITicketService ticketService)
+        public ProjectController(IAppUserService appUserService, IProjectService projectService, 
+            IUserProjectService userProjectService, IMapper mapper, ITicketService ticketService,
+            INotificationService notificationService)
         {
             _appUserService = appUserService;
             _projectService = projectService;
             _userProjectService = userProjectService;
             _mapper = mapper;
             _ticketService = ticketService;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> Index()
@@ -79,6 +83,7 @@ namespace BugTracker.Application.Controllers
         {
             var vm = new DetailViewModel { 
                 Project = await _projectService.FindOne(id),
+                Notifications = await _notificationService.GetAllByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))),
                 TicketCreateVm = new TicketCreateViewModel
                 {
                     PriorityOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Priority),
