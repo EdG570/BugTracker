@@ -11,6 +11,7 @@ namespace BugTracker.Application.ViewModels.AppUserViewModels
     {
         public IEnumerable<AppUser> Collaborators { get; set; }
         public IEnumerable<SelectListItem> NonCollaborators { get; set; }
+        public IEnumerable<Notification> Notifications { get; set; }
         public List<string> SelectedCollaborators { get; set; }
         public int ProjectId { get; set; }  
     }

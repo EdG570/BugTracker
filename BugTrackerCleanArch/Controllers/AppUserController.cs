@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BugTracker.Application.ViewModels.AppUserViewModels;
 using BugTracker.Core.Interfaces;
@@ -13,11 +14,13 @@ namespace BugTracker.Application.Controllers
     {
         private readonly IUserProjectService _userProjectService;
         private readonly IAppUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public AppUserController(IUserProjectService userProjectService, IAppUserService appUserService)
+        public AppUserController(IUserProjectService userProjectService, IAppUserService appUserService, INotificationService notificationService)
         {
             _userProjectService = userProjectService;
             _userService = appUserService;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> Collaborate(int id)
@@ -32,7 +35,8 @@ namespace BugTracker.Application.Controllers
                 Collaborators = collaborators,
                 NonCollaborators = nonCollaborators.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.LastName + ", " + x.FirstName })
                                                    .OrderByDescending(x => x.Text),
-                ProjectId = id
+                ProjectId = id,
+                Notifications = await _notificationService.GetAllByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)))
             };
 
             return View(vm);
