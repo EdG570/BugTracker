@@ -36,19 +36,21 @@
                 </form>
             </div>
             <div class="col-lg-3">
-                <table class="table table-light table-striped">
+                <table class="table">
                     <thead>
-                        <tr>
-                            <th>Current Collaborators</th>
+                        <tr class="bg-secondary text-white text-center">
+                            <th colspan="3">Current Collaborators</th>
                         </tr>
                         <tr>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Projects</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model.Collaborators == null || Model.Collaborators.Count() == 0)
                         {
-                            <tr>
+                            <tr class="bg-white">
                                 <td>There are currently no collaborators for this project</td>
                             </tr>
                         }
@@ -56,8 +58,10 @@
                         {
                             @foreach (var collaborator in Model.Collaborators)
                             {
-                                <tr>
+                                <tr class="bg-white">
                                     <td>@collaborator.FirstName @collaborator.LastName</td>
+                                    <td>@collaborator.Email</td>
+                                    <td>@collaborator.UserProjects.Count()</td>
                                 </tr>
                             }
                         }
