@@ -27,7 +27,7 @@
                         <li class="nav-item justify-content-start p-2 ml-5">
                             <button id="project-create-btn" class="btn btn-outline-success">+ New Project</button>
                         </li>
-                        
+
                     </ul>
                     <ul class="nav d-inline-block float-right bg-light notification-cont">
                         <li class="nav-item dropdown">
@@ -63,18 +63,22 @@
             @if (Model.User.UserProjects == null || Model.User.UserProjects.Count() == 0)
             {
                 <div class="alert alert-light mt-5 p-5">
-                    <h6>You currently do not have any active projects. Create a new project by clicking on the green 'New Project' button at the top left of the dashboard to get started!</h6> 
+                    <h6>You currently do not have any active projects. Create a new project by clicking on the green 'New Project' button at the top left of the dashboard to get started!</h6>
                 </div>
             }
 
-            @foreach (var userProject in Model.User.UserProjects)
+            @for (int i = 0; i < Model.User.UserProjects.Count(); i++)
             {
+                if (i > 0 && i % 4 == 0)
+                {
+                @:</div><div class="row justify-content-center">
+                }
                 <div class="col-lg-2 col-md-6 col-sm-6 pl-5 pr-5 pb-5">
                     <div class="card box-shadow grow bg-white">
-                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@userProject.Project.Id" id="@userProject.Project.Id" class="project-detail-link">
+                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.User.UserProjects.ToList()[i].Project.Id" id="@Model.User.UserProjects.ToList()[i].Project.Id" class="project-detail-link">
                             <img class="card-img" src="~/images/project-card-bg-0.jpeg" alt="Card image">
                             <div class="card-img-overlay">
-                                <h5 class="card-title text-white">@userProject.Project.Name</h5>
+                                <h5 class="card-title text-white">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
                             </div>
                         </a>
                     </div>
@@ -82,6 +86,7 @@
                         <img class="project-edit-btn" src="~/images/edit-blue.png" alt="edit icon" />
                     </div>
                 </div>
+
             }
 
         </div>
