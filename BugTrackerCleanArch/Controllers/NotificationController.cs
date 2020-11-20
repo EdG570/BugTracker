@@ -14,12 +14,15 @@ namespace BugTracker.Application.Controllers
         private readonly IAppUserService _appUserService;
         private readonly IProjectService _projectService;
         private readonly INotificationService _notificationService;
+        private readonly IUserProjectService _userProjectService;
 
-        public NotificationController(IAppUserService appUserService, IProjectService projectService, INotificationService notificationService)
+        public NotificationController(IAppUserService appUserService, IProjectService projectService, 
+            INotificationService notificationService, IUserProjectService userProjectService)
         {
             _appUserService = appUserService;
             _projectService = projectService;
             _notificationService = notificationService;
+            _userProjectService = userProjectService;
         }
 
         public async Task<IActionResult> Index()
@@ -51,14 +54,38 @@ namespace BugTracker.Application.Controllers
                 var notification = new Notification
                 {
                     AppUserId = Convert.ToInt32(userId),
-                    Message = "You've been invited to collaborate in the " + project.Name + " project by " + inviter.FirstName + " " + inviter.LastName
+                    Message = "You've been invited to collaborate in the " + project.Name + " project by " + inviter.FirstName + " " + inviter.LastName,
+                    ProjectId = projectId,
+                    ProjectOwnerId = inviter.Id
                 };
 
                 var result = await _notificationService.Create(notification);
             }
             
-
             return RedirectToAction("Collaborate", "AppUser", new { id = projectId });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Acknowledge(bool isAccepted, int notificationId)
+        {
+            var notification = await _notificationService.FindOne(notificationId);
+
+            if (notification == null)
+                throw new KeyNotFoundException("Notification was not found with id argument provided");
+
+            if (isAccepted)
+            {
+                notification.IsAcknowleged = true;
+                var result = await _userProjectService.Create(new UserProject { AppUserId = notification.AppUserId, ProjectId = notification.ProjectId });
+                await _notificationService.Update(notification);
+            }
+            else
+            {
+                notification.IsAcknowleged = true;
+                await _notificationService.Update(notification);
+            }
+            
+            return Json(new { notificationId });
         }
     }
 }

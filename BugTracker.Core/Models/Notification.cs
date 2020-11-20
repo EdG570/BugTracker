@@ -15,6 +15,9 @@ namespace BugTracker.Core.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public bool IsAcknowleged { get; set; } = false;
 
+        public int ProjectId { get; set; }
+        public int ProjectOwnerId { get; set; } 
+
         public int AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }
     }

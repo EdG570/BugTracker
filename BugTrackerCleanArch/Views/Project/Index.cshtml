@@ -33,18 +33,21 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <img id="notification-icon" src="~/images/notification.png" alt="notification icon" />
-                                <span id="notification-count">@Model.User.Notifications.Count()</span>
+                                <span id="notification-count">@Model.User.Notifications.Where(x => x.IsAcknowleged == false).Count()</span>
                             </a>
                             <div class="dropdown-menu">
                                 @foreach (var notification in Model.User.Notifications)
                                 {
-                                    <p class="dropdown-item">@notification.Message</p>
-                                    <div class="dropdown-divider"></div>
-                                    <div class="dropdown-item">
-                                        <button class="btn btn-sm btn-danger">Decline</button>
-                                        <button class="btn btn-sm btn-success">Accept</button>
-                                    </div>
-                                    <div class="dropdown-divider"></div>
+                                    if (notification.IsAcknowleged == false)
+                                    {
+                                        <p class="dropdown-item">@notification.Message</p>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="dropdown-item" id="@notification.Id">
+                                            <a class="btn btn-sm btn-danger decline">Decline</a>
+                                            <a class="btn btn-sm btn-success accept">Accept</a>
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                    }
                                 }
 
 

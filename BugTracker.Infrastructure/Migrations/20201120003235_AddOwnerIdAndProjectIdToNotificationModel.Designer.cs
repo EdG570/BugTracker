@@ -4,14 +4,16 @@ using BugTracker.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTracker.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityAppContext))]
-    partial class IdentityAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201120003235_AddOwnerIdAndProjectIdToNotificationModel")]
+    partial class AddOwnerIdAndProjectIdToNotificationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,44 +121,6 @@ namespace BugTracker.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "23f3e0c1-cf77-4efb-8a7a-331e045dd39f",
-                            Email = "user@email.com",
-                            EmailConfirmed = false,
-                            FirstName = "John",
-                            LastName = "Smith",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@EMAIL.COM",
-                            NormalizedUserName = "USER@EMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKCVxLH1ituMVleFkEEfocyXYmiDZUX7yKZwg7egSk+BnmIDXjZRuXnmmO5wLz+UFA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "76371424-8b9a-46bd-af5e-0de04d0475e3",
-                            TwoFactorEnabled = false,
-                            UserName = "user@email.com"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "679bb4dd-0317-4acd-9623-e8626a7025e6",
-                            Email = "user2@email.com",
-                            EmailConfirmed = false,
-                            FirstName = "Billy",
-                            LastName = "Bobson",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER2@EMAIL.COM",
-                            NormalizedUserName = "USER2@EMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAYf/is3xqsSkGARt+2Y59jsGVI4JVR++WFG3jVEKl8G1x1XAClihZrbReZ+68O63w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "ca90dd04-e770-431b-b4e0-d9394b481e89",
-                            TwoFactorEnabled = false,
-                            UserName = "user2@email.com"
-                        });
                 });
 
             modelBuilder.Entity("BugTracker.Core.Models.Comment", b =>
@@ -189,26 +153,6 @@ namespace BugTracker.Infrastructure.Migrations
                     b.HasIndex("TicketId");
 
                     b.ToTable("Comments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 945, DateTimeKind.Local).AddTicks(9),
-                            CreatedBy = "John Smith",
-                            CreatorId = 1,
-                            Description = "I'm troubleshooting this now",
-                            TicketId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 945, DateTimeKind.Local).AddTicks(986),
-                            CreatedBy = "Billy Bobson",
-                            CreatorId = 2,
-                            Description = "Ok let me know what you find!",
-                            TicketId = 1
-                        });
                 });
 
             modelBuilder.Entity("BugTracker.Core.Models.Notification", b =>
@@ -285,53 +229,6 @@ namespace BugTracker.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(3051),
-                            CreatedBy = "John Smith",
-                            Description = "A web application for managing staffing",
-                            Name = "Staffing App",
-                            OwnerId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(4663),
-                            CreatedBy = "John Smith",
-                            Description = "A web application for managing quality control",
-                            Name = "Qc App",
-                            OwnerId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(4695),
-                            CreatedBy = "John Smith",
-                            Description = "An internal web app for measuring agent performance",
-                            Name = "Scorecard App",
-                            OwnerId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(4699),
-                            CreatedBy = "John Smith",
-                            Description = "A web application for agents to monitor performance",
-                            Name = "Scoreboard App",
-                            OwnerId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(4703),
-                            CreatedBy = "John Smith",
-                            Description = "A web app for error tracking",
-                            Name = "Error Tracker",
-                            OwnerId = 1
-                        });
                 });
 
             modelBuilder.Entity("BugTracker.Core.Models.Ticket", b =>
@@ -380,106 +277,6 @@ namespace BugTracker.Infrastructure.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Tickets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AssignedToId = 1,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(6559),
-                            CreatedBy = "John Smith",
-                            Description = "I've attempted to update his team numerous times but to no avail. Can you take a look?",
-                            Priority = 2,
-                            ProjectId = 1,
-                            RequestorId = 1,
-                            Status = 0,
-                            Title = "Joe Borski's team will not update",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AssignedToId = 1,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8462),
-                            CreatedBy = "John Smith",
-                            Description = "Can you check why she isn't loading for this month?",
-                            Priority = 2,
-                            ProjectId = 1,
-                            RequestorId = 1,
-                            Status = 0,
-                            Title = "Susan Jones isn't showing up for this month",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AssignedToId = 1,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8504),
-                            CreatedBy = "John Smith",
-                            Description = "We'd like to filter by employee last name. Is this something you guys can add to the app?",
-                            Priority = 0,
-                            ProjectId = 1,
-                            RequestorId = 1,
-                            Status = 2,
-                            Title = "Filter by employee last name",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AssignedToId = 2,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8508),
-                            CreatedBy = "John Smith",
-                            Description = "Staffing is due by close of business and noone can access the app.",
-                            Priority = 3,
-                            ProjectId = 1,
-                            RequestorId = 1,
-                            Status = 1,
-                            Title = "The app is down!",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AssignedToId = 0,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8512),
-                            CreatedBy = "John Smith",
-                            Description = "I can't load the staffing app.",
-                            Priority = 3,
-                            ProjectId = 1,
-                            RequestorId = 1,
-                            Status = 0,
-                            Title = "Is this app working?",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AssignedToId = 2,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8517),
-                            CreatedBy = "John Smith",
-                            Description = "There are only 5 records to qc for today. Is this correct?",
-                            Priority = 2,
-                            ProjectId = 2,
-                            RequestorId = 2,
-                            Status = 1,
-                            Title = "Only 5 records for today",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AssignedToId = 0,
-                            CreatedAt = new DateTime(2020, 11, 19, 19, 35, 4, 944, DateTimeKind.Local).AddTicks(8521),
-                            CreatedBy = "John Smith",
-                            Description = "We'll need to add a check to see if all the records are being pulled in from the call center.",
-                            Priority = 1,
-                            ProjectId = 2,
-                            RequestorId = 2,
-                            Status = 0,
-                            Title = "Add a check for total records",
-                            Type = 0
-                        });
                 });
 
             modelBuilder.Entity("BugTracker.Core.Models.UserProject", b =>
@@ -495,33 +292,6 @@ namespace BugTracker.Infrastructure.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("UserProjects");
-
-                    b.HasData(
-                        new
-                        {
-                            ProjectId = 1,
-                            AppUserId = 1
-                        },
-                        new
-                        {
-                            ProjectId = 2,
-                            AppUserId = 1
-                        },
-                        new
-                        {
-                            ProjectId = 3,
-                            AppUserId = 1
-                        },
-                        new
-                        {
-                            ProjectId = 4,
-                            AppUserId = 1
-                        },
-                        new
-                        {
-                            ProjectId = 5,
-                            AppUserId = 1
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
