@@ -554,7 +554,7 @@ img.checkmark-icon {
 
 .notification-cont {
     position: relative;
-    right: 40em;
+    right: 30em;
     max-width: 10em;
 }
 
@@ -576,4 +576,9 @@ img.checkmark-icon {
 
 .dropdown-toggle::after {
     display: none;
+}
+
+.nav-btn-cont {
+    position: relative;
+    left: 4%;
 }
