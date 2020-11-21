@@ -59,7 +59,7 @@
                 <form class="form bg-white p-3 border-radius-5" asp-controller="Notification" asp-action="Create" method="post">
                     @Html.HiddenFor(x => x.ProjectId)
                     <div class="bg-secondary text-white">
-                        <h3 class="text-center p-3 border-radius-5">Invite New Collaborators:</h3>
+                        <h4 class="text-center p-3 border-radius-5 font-weight-light">Invite New Collaborators:</h4>
                     </div>
                     <div class="form-group">
                         <select multiple asp-for="SelectedCollaborators" asp-items="Model.NonCollaborators" class="form-control"></select>
@@ -73,7 +73,9 @@
                 <table class="table">
                     <thead>
                         <tr class="bg-secondary text-white text-center">
-                            <th colspan="3">Current Collaborators</th>
+                            <th colspan="3">
+                                <h4 class="font-weight-light">Current Collaborators</h4> 
+                            </th>
                         </tr>
                         <tr>
                             <th>Name</th>
