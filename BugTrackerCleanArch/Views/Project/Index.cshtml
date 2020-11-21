@@ -85,7 +85,7 @@
                         <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.User.UserProjects.ToList()[i].Project.Id" id="@Model.User.UserProjects.ToList()[i].Project.Id" class="project-detail-link">
                             <img class="card-img" src="~/images/@imgName" alt="Card image">
                             <div class="card-img-overlay">
-                                <h5 class="card-title text-white">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
+                                <h5 class="card-title text-white d-inline-block project-title">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
                             </div>
                         </a>
                     </div>
