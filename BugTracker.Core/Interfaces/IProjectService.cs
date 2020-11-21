@@ -11,5 +11,6 @@ namespace BugTracker.Core.Interfaces
     public interface IProjectService : IGenericService<Project>
     {
         Task<IEnumerable<SelectListItem>> GetUsersAsSelectListItemsByProjectId(int id);
+        string GetSeason();
     }
 }

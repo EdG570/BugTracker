@@ -24,5 +24,6 @@ namespace BugTracker.Application.ViewModels.ProjectViewModels
 
         [Url]
         public string NewProjectRepoUrl { get; set; }
+        public string PartialImageName { get; set; }    
     }
 }

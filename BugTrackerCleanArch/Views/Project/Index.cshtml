@@ -67,8 +67,15 @@
                 </div>
             }
 
+            @{ 
+                // Random numbers for random seasonal project images
+                var rnd = new Random();
+            }
+
             @for (int i = 0; i < Model.User.UserProjects.Count(); i++)
             {
+                var imgName = Model.PartialImageName + rnd.Next(1, 5) + ".jpeg";
+
                 if (i > 0 && i % 4 == 0)
                 {
                 @:</div><div class="row justify-content-center">
@@ -76,7 +83,7 @@
                 <div class="col-lg-2 col-md-6 col-sm-6 pl-5 pr-5 pb-5">
                     <div class="card box-shadow grow bg-white">
                         <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.User.UserProjects.ToList()[i].Project.Id" id="@Model.User.UserProjects.ToList()[i].Project.Id" class="project-detail-link">
-                            <img class="card-img" src="~/images/project-card-bg-0.jpeg" alt="Card image">
+                            <img class="card-img" src="~/images/@imgName" alt="Card image">
                             <div class="card-img-overlay">
                                 <h5 class="card-title text-white">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
                             </div>

@@ -43,7 +43,7 @@ namespace BugTracker.Application.Controllers
             var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var user = await _appUserService.FindOne(userId);
 
-            return View(new IndexViewModel { User = user });
+            return View(new IndexViewModel { User = user, PartialImageName = _projectService.GetSeason() });
         }
 
         [HttpPost]
