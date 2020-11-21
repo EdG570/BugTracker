@@ -58,7 +58,7 @@
             </nav>
         </div>
 
-        <div class="row justify-content-center" id="project-card-cont">
+        <div class="row justify-content-center project-card-cont" >
 
             @if (Model.User.UserProjects == null || Model.User.UserProjects.Count() == 0)
             {
@@ -78,7 +78,7 @@
 
                 if (i > 0 && i % 4 == 0)
                 {
-                @:</div><div class="row justify-content-center">
+                @:</div><div class="row justify-content-center project-card-cont">
                 }
                 <div class="col-lg-2 col-md-6 col-sm-6 pl-5 pr-5 pb-5">
                     <div class="card box-shadow grow bg-white">
@@ -88,9 +88,9 @@
                                 <h5 class="card-title text-white d-inline-block project-title">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
                             </div>
                         </a>
-                    </div>
-                    <div class="card-footer bg-white mt-0">
-                        <img class="project-edit-btn" src="~/images/edit-blue.png" alt="edit icon" />
+                        <div class="card-footer mt-0">
+                            <img class="project-edit-btn" src="~/images/edit-blue.png" alt="edit icon" />
+                        </div>
                     </div>
                 </div>
 

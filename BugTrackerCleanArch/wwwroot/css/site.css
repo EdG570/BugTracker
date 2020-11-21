@@ -588,3 +588,16 @@ img.checkmark-icon {
     padding: 0.15em 0.25em;
     border-radius: 5px;
 }
+
+.project-card-cont .card,
+.project-card-cont .card-img {
+    position: relative;
+    height: 140px;
+}
+
+.project-card-cont .card-footer {
+    position: absolute;
+    bottom: -0.18em;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5)
+}
