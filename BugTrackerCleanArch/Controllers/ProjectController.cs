@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using BugTracker.Application.Facades;
 using BugTracker.Application.Factories;
 using BugTracker.Application.ViewModels.ProjectViewModels;
 using BugTracker.Application.ViewModels.TicketViewModels;
@@ -19,31 +20,16 @@ namespace BugTracker.Application.Controllers
     [Authorize]
     public class ProjectController : Controller
     {
-        private readonly IAppUserService _appUserService;
-        private readonly IProjectService _projectService;
-        private readonly IUserProjectService _userProjectService;
-        private readonly ITicketService _ticketService;
-        private readonly INotificationService _notificationService;
-        private readonly IMapper _mapper;
+        private readonly IProjectFacade _projectFacade;
 
-        public ProjectController(IAppUserService appUserService, IProjectService projectService, 
-            IUserProjectService userProjectService, IMapper mapper, ITicketService ticketService,
-            INotificationService notificationService)
+        public ProjectController(IProjectFacade projectFacade)
         {
-            _appUserService = appUserService;
-            _projectService = projectService;
-            _userProjectService = userProjectService;
-            _mapper = mapper;
-            _ticketService = ticketService;
-            _notificationService = notificationService;
+            _projectFacade = projectFacade;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _appUserService.FindOne(userId);
-
-            return View(new IndexViewModel { User = user, PartialImageName = _projectService.GetSeason() });
+            return View(new IndexViewModel { User = await _projectFacade.GetUser(User), PartialImageName = _projectFacade.GetSeason() });
         }
 
         [HttpPost]
@@ -52,8 +38,7 @@ namespace BugTracker.Application.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Index", "Project");
 
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _appUserService.FindOne(userId);
+            var user = await _projectFacade.GetUser(User);
 
             var project = new Project
             {
@@ -64,7 +49,7 @@ namespace BugTracker.Application.Controllers
                 RepositoryUri = vm.NewProjectRepoUrl
             };
 
-            var result = await _projectService.Create(project);
+            var result = await _projectFacade.CreateProject(project);
 
             var userProject = new UserProject
             {
@@ -74,7 +59,7 @@ namespace BugTracker.Application.Controllers
                 Project = project
             };
 
-            var userProjectResult = await _userProjectService.Create(userProject);
+            var userProjectResult = await _projectFacade.CreateUserProject(userProject);
 
             return RedirectToAction("Index", "Project");
         }
@@ -82,14 +67,14 @@ namespace BugTracker.Application.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var vm = new DetailViewModel { 
-                Project = await _projectService.FindOne(id),
-                Notifications = await _notificationService.GetAllByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))),
+                Project = await _projectFacade.FindProjectById(id),
+                Notifications = await _projectFacade.GetNotificationsByUserId(_projectFacade.GetUserId(User)),
                 TicketCreateVm = new TicketCreateViewModel
                 {
                     PriorityOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Priority),
                     StatusOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Status),
                     TypeOptions = DropdownFactory.GetDropdown(DropdownFactory.DropdownType.Type),
-                    ProjectUsers = await _projectService.GetUsersAsSelectListItemsByProjectId(id),
+                    ProjectUsers = await _projectFacade.GetUserSelectListByProjectId(id),
                     ProjectId = id
                 }
             };
@@ -105,7 +90,7 @@ namespace BugTracker.Application.Controllers
 
             var intId = Convert.ToInt32(projectId);
 
-            var projectFromDb = await _projectService.FindOne(intId);
+            var projectFromDb = await _projectFacade.FindProjectById(intId);
 
             if (projectFromDb == null)
                 throw new KeyNotFoundException("Project not found in the database with the Id provided as an argument.");
@@ -114,7 +99,7 @@ namespace BugTracker.Application.Controllers
             projectFromDb.Description = description;
             projectFromDb.RepositoryUri = link;
 
-            var result = await _projectService.Update(projectFromDb);
+            var result = await _projectFacade.UpdateProject(projectFromDb);
 
             return Json(new { project = projectFromDb });
         }
@@ -127,7 +112,7 @@ namespace BugTracker.Application.Controllers
 
             var projectId = Convert.ToInt32(id);
 
-            var projectFromDb = await _projectService.FindOne(projectId);
+            var projectFromDb = await _projectFacade.FindProjectById(projectId);
 
             if (projectFromDb == null)
                 throw new KeyNotFoundException("Ticket was not found in the database with the id provided as an argument.");
@@ -138,27 +123,9 @@ namespace BugTracker.Application.Controllers
         [HttpGet]
         public async Task<JsonResult> Reports(int id)  
         {
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _appUserService.FindOne(userId);
-
-            var project = user.UserProjects.Select(x => x.Project).FirstOrDefault(x => x.Id == id);
-
-            var vm = new ReportsViewModel
-            {
-                ProjectId = id,
-                TotalTicketPriorityHigh = project.Tickets.Where(x => x.Priority == Priority.High).Count(),
-                TotalTicketsPriorityLow = project.Tickets.Where(x => x.Priority == Priority.Low).Count(),
-                TotalTicketsPriorityMed = project.Tickets.Where(x => x.Priority == Priority.Medium).Count(),
-                TotalTicketsPriorityUrgent = project.Tickets.Where(x => x.Priority == Priority.Urgent).Count(),
-                TotalTicketsStatusClosed = project.Tickets.Where(x => x.Status == Status.Closed).Count(),
-                TotalTicketsStatusOpen = project.Tickets.Where(x => x.Status == Status.Open).Count(),
-                TotalTicketsStatusInProgress = project.Tickets.Where(x => x.Status == Status.InProgress).Count(),
-                TotalTicketsTypeTask = project.Tickets.Where(x => x.Type == TicketType.Task).Count(),
-                TotalTicketsTypeBug = project.Tickets.Where(x => x.Type == TicketType.Bug).Count(),
-                TotalTicketsTypeFeature = project.Tickets.Where(x => x.Type == TicketType.Feature).Count()
-            };
+            var user = await _projectFacade.GetUser(User);
+            var vm = _projectFacade.GetReportsViewModel(user, id);
            
-
             return Json(new { vm });
         }
     }

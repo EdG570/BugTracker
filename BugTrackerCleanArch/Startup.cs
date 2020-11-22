@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BugTracker.Application.Facades;
 using BugTracker.Core.Interfaces;
 using BugTracker.Core.Models;
 using BugTracker.Core.Services;
@@ -62,6 +63,8 @@ namespace BugTrackerCleanArch
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IUserProjectService, UserProjectService>();
             services.AddScoped<IAppUserService, AppUserService>();
+
+            services.AddScoped<IProjectFacade, ProjectFacade>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
