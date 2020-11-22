@@ -134,5 +134,32 @@ namespace BugTracker.Application.Controllers
 
             return Json(new { project = projectFromDb });
         }
+
+        [HttpGet]
+        public async Task<JsonResult> Reports(int id)  
+        {
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var user = await _appUserService.FindOne(userId);
+
+            var project = user.UserProjects.Select(x => x.Project).FirstOrDefault(x => x.Id == id);
+
+            var vm = new ReportsViewModel
+            {
+                ProjectId = id,
+                TotalTicketPriorityHigh = project.Tickets.Where(x => x.Priority == Priority.High).Count(),
+                TotalTicketsPriorityLow = project.Tickets.Where(x => x.Priority == Priority.Low).Count(),
+                TotalTicketsPriorityMed = project.Tickets.Where(x => x.Priority == Priority.Medium).Count(),
+                TotalTicketsPriorityUrgent = project.Tickets.Where(x => x.Priority == Priority.Urgent).Count(),
+                TotalTicketsStatusClosed = project.Tickets.Where(x => x.Status == Status.Closed).Count(),
+                TotalTicketsStatusOpen = project.Tickets.Where(x => x.Status == Status.Open).Count(),
+                TotalTicketsStatusInProgress = project.Tickets.Where(x => x.Status == Status.InProgress).Count(),
+                TotalTicketsTypeTask = project.Tickets.Where(x => x.Type == TicketType.Task).Count(),
+                TotalTicketsTypeBug = project.Tickets.Where(x => x.Type == TicketType.Bug).Count(),
+                TotalTicketsTypeFeature = project.Tickets.Where(x => x.Type == TicketType.Feature).Count()
+            };
+           
+
+            return Json(new { vm });
+        }
     }
 }
