@@ -82,14 +82,21 @@
                 }
                 <div class="col-lg-2 col-md-6 col-sm-6 pl-5 pr-5 pb-5">
                     <div class="card box-shadow grow bg-white">
-                        <a asp-controller="Project" asp-action="Detail" asp-route-id="@Model.User.UserProjects.ToList()[i].Project.Id" id="@Model.User.UserProjects.ToList()[i].Project.Id" class="project-detail-link">
-                            <img class="card-img" src="~/images/@imgName" alt="Card image">
-                            <div class="card-img-overlay">
-                                <h5 class="card-title text-white d-inline-block project-title">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
-                            </div>
-                        </a>
+                        <img class="card-img" src="~/images/@imgName" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h5 class="card-title text-white d-inline-block project-title">@Model.User.UserProjects.ToList()[i].Project.Name</h5>
+                        </div>
                         <div class="card-footer mt-0">
-                            <img class="project-edit-btn" src="~/images/edit-blue.png" alt="edit icon" />
+                            <a asp-controller="Project" 
+                               asp-action="Detail" 
+                               asp-route-id="@Model.User.UserProjects.ToList()[i].Project.Id" 
+                               id="@Model.User.UserProjects.ToList()[i].Project.Id" 
+                               class="project-detail-link btn btn-sm btn-warning mr-4"
+                             >
+                                Tickets
+                            </a>
+                            <button class="btn btn-sm btn-info mr-4" id="project-details-btn">Details</button>
+                            <button class="btn btn-sm btn-primary project-edit-btn">Edit</button>
                         </div>
                     </div>
                 </div>

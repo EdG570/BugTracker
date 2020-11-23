@@ -68,7 +68,7 @@ var edit = (function () {
     var currentProjectId = 0;
 
     $editBtn.on('click', function () {
-        currentProjectId = $(this).parent('.card-footer').prev('.card').find('.project-detail-link').attr('id');
+        currentProjectId = $(this).prev('button').prev('.project-detail-link').attr('id');
         ajax.getProjectById(currentProjectId);
     });
 
