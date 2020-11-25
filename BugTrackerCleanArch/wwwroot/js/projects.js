@@ -112,6 +112,48 @@ var modals = (function () {
     };
 })();
 
+var projectDetails = (function () {
+    var $detailsBtn = $('.project-details-btn');
+
+    var updateUiModal = function (project) {
+        var $modal = $('#project-detail-modal');
+
+        $modal.find('#project-detail-name').text(project.name);
+        $modal.find('.project-owner').text(project.createdBy);
+        $modal.find('.project-description').text(project.description);
+        $modal.find('.project-repo-uri').text(project.repositoryUri);
+        $modal.find('.project-collaborators').text(project.userProjects.length);
+        $modal.find('.project-tickets').text(project.tickets.length);
+        $modal.find('.project-start-date').text(project.createdAt);
+
+        $modal.modal('toggle');
+        console.log(project);
+    };
+
+    var getProjectById = function (id) {
+        $.ajax({
+            type: "POST",
+            url: '/Project/FindById',
+            data: { id: id },
+            success: function (data) {
+                updateUiModal(data.project);
+            },
+            error: function (e) {
+
+            }
+        });
+    };
+
+    $detailsBtn.on('click', function () {
+        var projectId = $(this).prev('a').attr('id');
+        getProjectById(projectId);
+    });
+
+    return {
+
+    };
+})();
+
 $(document).ready(function () {
 
 });
