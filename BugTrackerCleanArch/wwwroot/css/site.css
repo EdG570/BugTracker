@@ -144,6 +144,11 @@ a.navbar-brand {
 
 /* ------------------------ Forms ------------------------ */
 
+.form-container {
+    max-width: 350px;
+    margin: 0 auto;
+}
+
 .form-container form {
     border: 1px solid #ddd;
     border-radius: 5px;
