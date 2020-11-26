@@ -149,7 +149,13 @@ a.navbar-brand {
     margin: 0 auto;
 }
 
-.form-container form {
+.form-container-register {
+    width: 375px;
+    margin: 0 auto;
+}
+
+.form-container form,
+.form-container-register form {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 2em;
