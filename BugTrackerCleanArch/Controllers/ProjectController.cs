@@ -66,8 +66,12 @@ namespace BugTracker.Application.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
+            var project = await _projectFacade.FindProjectById(id);
+
+            if (project == null) throw new KeyNotFoundException("Project was not found in the database with the provided id argument.");
+
             var vm = new DetailViewModel { 
-                Project = await _projectFacade.FindProjectById(id),
+                Project = project,
                 Notifications = await _projectFacade.GetNotificationsByUserId(_projectFacade.GetUserId(User)),
                 TicketCreateVm = new TicketCreateViewModel
                 {
