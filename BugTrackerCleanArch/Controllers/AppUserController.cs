@@ -28,7 +28,7 @@ namespace BugTracker.Application.Controllers
             var collaborators = await _userProjectService.GetUserCollabsByProjectId(id);
             var nonCollaborators = await _userService.GetAll();
             nonCollaborators = nonCollaborators.Where(x => !collaborators.Contains(x));
-
+            var user = await _userService.GetUserByClaim(User);
 
             var vm = new CollaborateViewModel
             {
@@ -36,7 +36,7 @@ namespace BugTracker.Application.Controllers
                 NonCollaborators = nonCollaborators.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.LastName + ", " + x.FirstName })
                                                    .OrderByDescending(x => x.Text),
                 ProjectId = id,
-                Notifications = await _notificationService.GetAllByUserId(Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                Notifications = await _notificationService.GetAllByUserId(user.Id)
             };
 
             return View(vm);

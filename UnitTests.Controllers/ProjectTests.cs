@@ -13,7 +13,7 @@ using BugTracker.Application.ViewModels.ProjectViewModels;
 
 namespace BugTracker.App.Controllers
 {
-    public class ProjectUnitTests
+    public class ProjectTests
     {
         [Fact]
         public async Task Index_ReturnsViewResult_WhenInvoked()
@@ -23,7 +23,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.GetUser(It.IsAny<ClaimsPrincipal>()))
-                             .ReturnsAsync(new AppUser());
+                             .ReturnsAsync(new Core.Models.AppUser());
 
             mockProjectFacade.Setup(x => x.GetSeason())
                              .Returns(season);
@@ -45,7 +45,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.GetUser(It.IsAny<ClaimsPrincipal>()))
-                             .ReturnsAsync(new AppUser());
+                             .ReturnsAsync(new Core.Models.AppUser());
 
             mockProjectFacade.Setup(x => x.GetSeason())
                              .Returns(season);
@@ -68,7 +68,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.GetUser(It.IsAny<ClaimsPrincipal>()))
-                             .ReturnsAsync(new AppUser());
+                             .ReturnsAsync(new Core.Models.AppUser());
 
             var controller = new ProjectController(mockProjectFacade.Object);
             controller.ModelState.AddModelError("Error", "Model State Invalid");
@@ -93,7 +93,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.GetUser(It.IsAny<ClaimsPrincipal>()))
-                             .ReturnsAsync(new AppUser());
+                             .ReturnsAsync(new Core.Models.AppUser());
 
             mockProjectFacade.Setup(x => x.CreateProject(It.IsAny<Project>()))
                              .ReturnsAsync(1);
@@ -132,10 +132,10 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.FindProjectById(It.IsAny<int>()))
-                             .ReturnsAsync(new Project());
+                             .ReturnsAsync(new Core.Models.Project());
 
             mockProjectFacade.Setup(x => x.GetNotificationsByUserId(It.IsAny<int>()))
-                             .ReturnsAsync(new List<Notification>());
+                             .ReturnsAsync(new List<Core.Models.Notification>());
 
             var controller = new ProjectController(mockProjectFacade.Object);
 
@@ -170,7 +170,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.FindProjectById(It.IsAny<int>()))
-                             .ReturnsAsync((Project)null);
+                             .ReturnsAsync((Core.Models.Project)null);
 
             var controller = new ProjectController(mockProjectFacade.Object);
 
@@ -188,7 +188,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.FindProjectById(It.IsAny<int>()))
-                             .ReturnsAsync(new Project());
+                             .ReturnsAsync(new Core.Models.Project());
 
             mockProjectFacade.Setup(x => x.UpdateProject(It.IsAny<Project>()))
                              .ReturnsAsync(1);
@@ -224,7 +224,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.FindProjectById(It.IsAny<int>()))
-                             .ReturnsAsync((Project)null);
+                             .ReturnsAsync((Core.Models.Project)null);
 
             var controller = new ProjectController(mockProjectFacade.Object);
 
@@ -241,7 +241,7 @@ namespace BugTracker.App.Controllers
             var mockProjectFacade = new Mock<IProjectFacade>();
 
             mockProjectFacade.Setup(x => x.FindProjectById(It.IsAny<int>()))
-                             .ReturnsAsync(new Project());
+                             .ReturnsAsync(new Core.Models.Project());
 
             var controller = new ProjectController(mockProjectFacade.Object);
 

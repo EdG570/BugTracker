@@ -39,15 +39,7 @@ namespace BugTracker.Application.Controllers
                 return RedirectToAction("Collaborate", "AppUser", new { id = projectId });
 
             var project = await _projectService.FindOne(projectId);
-
-            if (project == null)
-                throw new ArgumentException("Project Id cannot be null");
-
-            var inviterId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var inviter = await _appUserService.FindOne(inviterId);
-
-            if (inviter == null)
-                throw new KeyNotFoundException("The current user was not found in the database");
+            var inviter = await _appUserService.GetUserByClaim(User);
 
             foreach (var userId in selectedCollaborators)
             {

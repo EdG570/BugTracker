@@ -35,11 +35,7 @@ namespace BugTracker.Application.Controllers
                 throw new ArgumentException("id and status cannot be null or empty.");
 
             var ticketId = Convert.ToInt32(id);
-
             var ticketFromDb = await _ticketService.FindOne(ticketId);
-
-            if (ticketFromDb == null)
-                throw new KeyNotFoundException("Ticket was not found in the database with the id provided as an argument.");
 
             ticketFromDb.Status = (status == "Open") ? Status.Open
                                                      : (status == "Closed")
@@ -60,11 +56,7 @@ namespace BugTracker.Application.Controllers
                 throw new ArgumentException("id cannot be null or empty.");
 
             var ticketId = Convert.ToInt32(id);
-
             var ticketFromDb = await _ticketService.FindOne(ticketId);
-
-            if (ticketFromDb == null)
-                throw new KeyNotFoundException("Ticket was not found in the database with the id provided as an argument.");
 
             return Json(new { ticketFromDb });
         }
@@ -75,9 +67,7 @@ namespace BugTracker.Application.Controllers
             if (string.IsNullOrEmpty(vm.TicketCreateVm.Title) || string.IsNullOrEmpty(vm.TicketCreateVm.Description))
                 return RedirectToAction("Detail", "Project", new { id = vm.Project.Id });
 
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _appUserService.FindOne(userId);
-
+            var user = await _appUserService.GetUserByClaim(User);
             var ticket = _mapper.Map(vm.TicketCreateVm, new Ticket());
 
             ticket.CreatedBy = user.FirstName + user.LastName;

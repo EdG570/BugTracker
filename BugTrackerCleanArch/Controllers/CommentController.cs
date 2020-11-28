@@ -26,8 +26,7 @@ namespace BugTracker.Application.Controllers
             if (string.IsNullOrEmpty(ticketId) || string.IsNullOrEmpty(description))
                 throw new ArgumentException("Ticket id and comment description cannot be null.");
 
-            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _appUserService.FindOne(userId);
+            var user = await _appUserService.GetUserByClaim(User);
 
             var comment = new Comment
             {
