@@ -40,6 +40,12 @@ namespace BugTracker.Core.Services.UnitTests
                            .ReturnsAsync(new List<AppUser>());
 
             var service = new AppUserService(mockAppUserRepo.Object);
+
+            // Act
+            var result = await service.GetAll();
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<AppUser>>(result);
         }
     }
 }
