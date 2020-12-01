@@ -77,7 +77,10 @@ namespace BugTracker.Core.Services
         public async Task<IEnumerable<SelectListItem>> GetUsersAsSelectListItemsByProjectId(int id)
         {
             var project = await _projectRepo.FindOne(id);
-            var list = new List<SelectListItem>();
+            var list = new List<SelectListItem> { new SelectListItem { Value = "", Text = "Unassigned" } };
+
+            if (project == null || project.UserProjects == null)
+                return list;
 
             foreach (var userProject in project.UserProjects)
             {
@@ -90,7 +93,7 @@ namespace BugTracker.Core.Services
 
             list = list.OrderBy(x => x.Text).ToList();
 
-            return list.Prepend(new SelectListItem { Value = "", Text = "Unassigned" });
+            return list;
         }
 
         public async Task<int> Update(Project entity)
